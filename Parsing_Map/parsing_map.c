@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/14 19:19:06 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/14 20:44:41 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ char	*dup_replacing_by_dots(char *str, int extremity, int len)
 	i = 1;
 	while (i < len + 1)
 	{
-		if (!str[i - 1] || (str[i - 1] && is_space(str[i - 1])) || extremity)
+		if (i > (int)ft_strlen(str)
+			|| (str[i - 1] && is_space(str[i - 1])) || extremity)
 			new[i] = '.';
 		else
 			new[i] = str[i - 1];
@@ -76,7 +77,7 @@ char	**clean_map(char **map, t_game *game)
 		return (NULL);
 	i = 1;
 	new[0] = dup_replacing_by_dots(map[i], 1, game->longest_line);
-	while (i < len + 1)///////////////
+	while (i < len + 1)
 	{
 		new[i] = dup_replacing_by_dots(map[i - 1], 0, game->longest_line);
 		i++;
@@ -110,7 +111,7 @@ void	print_map(char **map)
 				printf("\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", map[i][j]);
 			else if (map[i][j] == 'o')
 				printf("\x1b[38;2;0;200;0;1mo\e[0m");
-				else if (map[i][j] == 'c')
+			else if (map[i][j] == 'c')
 				printf("\x1b[38;2;200;0;0;1mc\e[0m");
 			j++;
 		}
@@ -126,12 +127,12 @@ void	parse_map(int fd, void *mlx, t_game *game)
 
 	line = get_next_line(fd);
 	if (!line || line[0] == '\0')
-		printf("Map missing\n");//ft_error("Map missing");
+		printf("Map missing\n");
 	game->longest_line = ft_strlen(line);
-	game->map = malloc((16) * sizeof(char *));
+	game->map = ft_calloc(17, sizeof(char *));
 	game->parsing_error = 0;
 	if (!game->map)
-		printf("Malloc failed\n");//ft_error("Malloc failed");
+		printf("Malloc failed\n");
 	i = 0;
 	while (line)
 	{
@@ -139,12 +140,13 @@ void	parse_map(int fd, void *mlx, t_game *game)
 			game->longest_line = ft_strlen(line);
 		game->map[i] = line;
 		i++;
-		if (i % 16 == 0)
-			game->map = ft_grow(game->map, (i - 15) * sizeof(char *),
-			(i + 1) * sizeof(char *));
+		if (i % 17 == 0)
+		{
+			game->map = ft_grow(game->map, i * sizeof(char *),
+					(i + 16) * sizeof(char *));
+		}
 		line = get_next_line(fd);
 	}
-	
 	check_chars(game->map, mlx, game);
 	game->map = clean_map(game->map, game);
 	is_closed(game, game->player.y, game->player.x);
