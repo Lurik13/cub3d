@@ -6,7 +6,7 @@
 #    By: atu <marvin@42.fr>                         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/14 11:07:38 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/14 11:14:53 by aboyreau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ $(NAME): $(OBJS)
 
 deps:
 	$(MAKE) -C libft
+	$(MAKE) -C minilibx-linux
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@
