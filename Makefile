@@ -6,7 +6,7 @@
 #    By: lribette <lribette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/14 11:35:55 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/14 11:42:41 by aboyreau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CPPFLAGS += -Iminilibx-linux -Ilibft
 LDLIBS += -lft -lmlx -lXext -lX11 -lm -lz
 LDFLAGS += -Llibft -Lminilibx-linux
 
-SRC = cub3d parsing_map parse_attrs game
+SRC = cub3d parsing_map parse_attrs game 
 
 SRCS = $(addsuffix .c,$(SRC))
 OBJS = $(addsuffix .o,$(SRC))

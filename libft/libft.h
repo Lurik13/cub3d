@@ -6,7 +6,7 @@
 /*   By: atu <atu@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:06:03 by atu               #+#    #+#             */
-/*   Updated: 2024/03/14 06:20:48 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:58:27 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -204,6 +204,8 @@ char	*get_next_line(int fd);
  * @param step A value between 0 and 1
  */
 int		ft_gradient(int color1, int color2, float step);
+
+int		ft_color(int r, int g, int b);
 
 /**
  * @brief Sort an array based on a comp function.
