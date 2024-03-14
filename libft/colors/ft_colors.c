@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 05:58:49 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/01/08 06:00:10 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:57:38 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,15 @@ int	ft_gradient(int color1, int color2, float step)
 	finalcolor *= 0x100;
 	finalcolor += (b[0] + (step) * (b[1] - b[0]));
 	return (finalcolor);
+}
+
+int	ft_color(int r, int g, int b)
+{
+	int	color;
+
+	color = 0;
+	color |= (r << 16);
+	color |= (g << 8);
+	color |= (b);
+	return (color);
 }
