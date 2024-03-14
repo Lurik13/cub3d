@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/14 11:00:44 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:23:10 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ void	parse_map(int fd, t_game *game)
 	while (line)
 	{
 		game->map[i] = line;
+		printf("game->map[i] = %s\n", game->map[i]);
 		i++;
 		if (i % 16 == 0)
-			ft_grow(game->map, (i - 15) * sizeof(char *),
+			game->map = ft_grow(game->map, (i - 15) * sizeof(char *),
 			(i + 1) * sizeof(char *));
-		get_next_line(fd);
+		line = get_next_line(fd);
 	}
+	
 }
