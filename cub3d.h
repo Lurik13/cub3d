@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 13:56:54 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/14 19:12:51 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,29 @@ typedef struct s_game
 	char		**map;
 }				t_game;
 
-void	parse_map(int fd, t_game *game);
+/* ************************************************************************* */
+/* check_recursive.c														 */
+/* ************************************************************************* */
+void	is_closed(t_game *game, int y, int x);
+
+/* ************************************************************************* */
+/* parsing_map.c															 */
+/* ************************************************************************* */
+void	check_chars(char **map, void *mlx, t_game *game);
+void	parse_map(int fd, void *mlx, t_game *game);
+
+/* ************************************************************************* */
+/* parsing_utils.c															 */
+/* ************************************************************************* */
+int		is_space(char c);
+int		is_player(char c);
+int		is_a_map_char(char c);
+void	free_table(char **tab);
+int		ft_tablen(char **tab);
+
 int		parse_attrs(void *mlx, int fd, t_game **game);
 void	free_game(void *mlx, t_game *game);
 t_game	*init_game(void);
+void	exit_error(char *str, void *mlx, t_game *game);
 
 #endif
