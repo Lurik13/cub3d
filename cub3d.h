@@ -6,12 +6,14 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 10:46:38 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:07:43 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+#include "mlx.h"
 
 enum	e_directions
 {
@@ -23,15 +25,15 @@ enum	e_directions
 
 typedef struct s_textures
 {
-	mlx_image	wall[4];
-	mlx_image	door[4];
+	void		*wall[4];
+	void		*door[4];
 	int			floor;
 	int			ceiling;
 }				t_textures;
 
 typedef struct s_game
 {
-	t_textures	texturedata;
+	t_textures	*texture;
 	char		**map;
 }				t_game;
 
