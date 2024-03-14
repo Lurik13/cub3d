@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atu <marvin@42.fr>                         +#+  +:+       +#+         #
+#    By: lribette <lribette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/14 10:53:19 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/14 11:15:30 by lribette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CPPFLAGS += -Iminilibx-linux -Ilibft
 LDLIBS += -lft -lmlx
 LDFLAGS += -Llibft -Lminilibx-linux
 
-SRC = cub3d parse_attrs
+SRC = cub3d parsing_map #parse_attrs
 
 SRCS = $(addsuffix .c,$(SRC))
 OBJS = $(addsuffix .o,$(SRC))
