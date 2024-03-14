@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/14 12:50:08 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:01:28 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,7 @@ int	main(int argc, char **argv)
 	if (parse_attrs(mlx, fd, &game))
 		exit(1);
 	// free_game(mlx, game);
+
+	game->map = NULL;
+	parse_map(fd, game);
 }
