@@ -1,0 +1,3 @@
+[submodule "libft"]
+	path = libft
+	url = git@codeberg.org:atuu/libft
