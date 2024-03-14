@@ -6,12 +6,12 @@
 #    By: atu <marvin@42.fr>                         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/14 10:53:19 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/14 11:07:38 by aboyreau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-NAME = cub3d
+NAME = cub3D
 CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -Iminilibx-linux -Ilibft
 LDLIBS += -lft -lmlx
