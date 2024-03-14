@@ -6,13 +6,13 @@
 #    By: lribette <lribette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/14 11:16:19 by lribette         ###   ########.fr        #
+#    Updated: 2024/03/14 12:36:09 by lribette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 NAME = cub3D
-CFLAGS += -Wall -Wextra -Werror
+CFLAGS += -Wall -Wextra -Werror -g
 CPPFLAGS += -Iminilibx-linux -Ilibft
 LDLIBS += -lft -lmlx
 LDFLAGS += -Llibft -Lminilibx-linux

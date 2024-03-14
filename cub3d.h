@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 11:14:08 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:46:06 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,18 @@ typedef struct s_textures
 	int			ceiling;
 }				t_textures;
 
+typedef struct s_player
+{
+	int	x;
+	int	y;
+}				t_player;
+
 typedef struct s_game
 {
 	t_textures	*texture;
+	t_player	player;
+	int			longest_line;
+	int			parsing_error;
 	char		**map;
 }				t_game;
 
