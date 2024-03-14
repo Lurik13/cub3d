@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 11:45:47 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/14 12:50:23 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "mlx.h"
 
-t_game	*init_game()
+t_game	*init_game(void)
 {
 	t_game	*game;
 

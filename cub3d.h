@@ -6,14 +6,14 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 11:42:53 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/14 12:50:59 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
- # include "mlx.h"
+# include "mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -24,7 +24,7 @@
 
 enum	e_directions
 {
-	NORTH,
+	NORTH = 0,
 	SOUTH,
 	EAST,
 	WEST
@@ -45,8 +45,8 @@ typedef struct s_game
 }				t_game;
 
 void	parse_map(int fd, t_game *game);
-int	parse_attrs(void *mlx, int fd, t_game *game);
+int		parse_attrs(void *mlx, int fd, t_game **game);
 void	free_game(void *mlx, t_game *game);
-t_game	*init_game();
+t_game	*init_game(void);
 
 #endif
