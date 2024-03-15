@@ -6,48 +6,48 @@
 #    By: lribette <lribette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/15 08:21:52 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/15 12:38:10 by aboyreau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 NAME = cub3D
 CFLAGS += -Wall -Wextra -Werror -g
-CPPFLAGS += -Iminilibx-linux -Ilibft
+CPPFLAGS += -Ilibs/minilibx-linux -Ilibs/libft -Iincludes
 LDLIBS += -lft -lmlx -lXext -lX11 -lm -lz
-LDFLAGS += -Llibft -Lminilibx-linux
+LDFLAGS += -Llibs/libft -Llibs/minilibx-linux
 
 SRC = cub3d \
-	  parsing_map/check_recursive parsing_map/parsing_map parsing_map/parsing_utils \
-	  parse_attrs \
-	  game \
+	  parser/parsing_map/check_recursive parser/parsing_map/parsing_map parser/parsing_map/parsing_utils \
+	  parser/parse_attrs \
+	  game/game \
 	  renderer/render
 
-LIBS = libft/libft.a minilibx-linux/libmlx.a
+LIBS = libs/libft/libft.a libs/minilibx-linux/libmlx.a
 
-SRCS = $(addsuffix .c,$(SRC))
-OBJS = $(addsuffix .o,$(SRC))
+SRCS = $(addprefix src/, $(addsuffix .c,$(SRC)))
+OBJS = $(addprefix src/, $(addsuffix .o,$(SRC)))
 
-all: $(NAME)
+all: deps $(NAME)
 
 $(NAME): $(LIBS) $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $(NAME) $(LDLIBS)
 
-$(LIBS):
-	$(MAKE) -C libft
-	$(MAKE) -C minilibx-linux
+deps:
+	$(MAKE) -C libs/libft
+	$(MAKE) -C libs/minilibx-linux
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@
 
 clean:
-	$(MAKE) -C libft clean
-	$(MAKE) -C minilibx-linux clean
+	$(MAKE) -C libs/libft clean
+	$(MAKE) -C libs/minilibx-linux clean
 	rm -f $(OBJS)
 
 fclean: clean
-	$(MAKE) -C libft fclean
-	$(MAKE) -C minilibx-linux clean
+	$(MAKE) -C libs/libft fclean
+	$(MAKE) -C libs/minilibx-linux clean
 	rm -f $(NAME)
 
 re: fclean all

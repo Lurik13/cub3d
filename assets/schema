@@ -1,0 +1,42 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MUR MUR	MUR
+		MUR
+    |	MUR MUR MUR
+    |			MUR
+P   |			MUR
+    |		MUR MUR
+	|		MUR
+		MUR MUR
+MUR MUR MUR
+
+
+
+Raycasting :
+
+Pour chaque colonne de l'écran :
+	Calculer la direction et le point de départ du rayon
+	Tant que mon rayon a pas trouvé un mur
+		On
+
+
+
+
+
+
