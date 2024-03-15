@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/15 04:39:03 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 08:31:09 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	check_chars(char **map, void *mlx, t_game *game)
 				exit_error("Invalid char", mlx, game);
 			if (is_player(map[i][j]))
 			{
-				game->player.x = j;
-				game->player.y = i;
+				game->player->position->v = j;
+				game->player->position->h = i;
 				number_of_players++;
 			}
 			j++;
@@ -129,8 +129,7 @@ void	parse_map(int fd, void *mlx, t_game *game)
 	if (!line || line[0] == '\0')
 		printf("Map missing\n");
 	game->longest_line = ft_strlen(line);
-	game->map = ft_calloc(17, sizeof(char *));
-	game->parsing_error = 0;
+	game->map = ft_calloc(16, sizeof(char *));
 	if (!game->map)
 		printf("Malloc failed\n");
 	i = 0;
@@ -140,17 +139,16 @@ void	parse_map(int fd, void *mlx, t_game *game)
 			game->longest_line = ft_strlen(line);
 		game->map[i] = line;
 		i++;
-		if (i % 17 == 0)
+		if (i % 16 == 0)
 		{
 			game->map = ft_grow(game->map, i * sizeof(char *),
-					(i + 16) * sizeof(char *));
+					(i + 15) * sizeof(char *));
 		}
 		line = get_next_line(fd);
 	}
 	check_chars(game->map, mlx, game);
 	game->map = clean_map(game->map, game);
-	if (is_closed(game, game->player.y, game->player.x))
+	if (is_closed(game, game->player->position->h, game->player->position->v))
 		printf("\x1b[38;2;180;0;0;7mUnclosed map\n\e[0m");
 	print_map(game->map);
-	free_table(game->map);
 }

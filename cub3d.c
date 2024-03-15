@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/15 05:20:07 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 08:21:12 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include "mlx.h"
 #include "printf/ft_printf.h"
+#include "renderer/render.h"
 #include "str/ft_str.h"
 #include "cub3d.h"
 
@@ -58,5 +59,6 @@ int	main(int argc, char **argv)
 	}
 	game->map = NULL;
 	parse_map(fd, mlx, game);
+	render(mlx, game);
 	free_game(mlx, game);
 }

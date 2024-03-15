@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/15 04:56:45 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 08:26:39 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include "mlx.h"
+# include "libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -40,17 +41,15 @@ typedef struct s_textures
 
 typedef struct s_player
 {
-	int	x;
-	int	y;
-	int	camera;
+	t_2dvector	*position;
+	t_2dvector	*camera;
 }				t_player;
 
 typedef struct s_game
 {
 	t_textures	*texture;
-	t_player	player;
+	t_player	*player;
 	int			longest_line;
-	int			parsing_error;
 	char		**map;
 }				t_game;
 
@@ -74,9 +73,15 @@ int		is_a_map_char(char c);
 void	free_table(char **tab);
 int		ft_tablen(char **tab);
 
-int		parse_attrs(void *mlx, int fd, t_game **game);
+/* ************************************************************************* */
+/* Game																		 */
+/* ************************************************************************* */
+
 void	free_game(void *mlx, t_game *game);
 t_game	*init_game(void);
+
+int		parse_attrs(void *mlx, int fd, t_game **game);
+
 void	exit_error(char *str, void *mlx, t_game *game);
 
 #endif
