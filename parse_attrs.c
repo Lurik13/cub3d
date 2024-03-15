@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/15 04:42:32 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 05:43:34 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	parse_attr(void *mlx, char *line, t_game **game)
 	line += 2;
 	while (ft_strcontains(" \t", *line))
 		line++;
+	if (direction == -1)
+		return (-1);
 	(*game)->texture->wall[direction] = load_texture(mlx, line);
 	if ((*game)->texture->wall[direction] == NULL)
 		return (1);
@@ -95,6 +97,8 @@ int	parse_attrs(void *mlx, int fd, t_game **game)
 	char	*temp;
 	char	*line;
 
+	if (fd < 0)
+		return (-2);
 	line = get_next_line(fd);
 	while (!textures_check((*game)->texture))
 	{
@@ -102,8 +106,13 @@ int	parse_attrs(void *mlx, int fd, t_game **game)
 		line = ft_strtrim(line, " \t\r\n");
 		free(temp);
 		if (line[0] != '\0')
+		{
 			if (parse_attr(mlx, line, game))
+			{
+				free(line);
 				return (-1);
+			}
+		}
 		free(line);
 		line = get_next_line(fd);
 	}

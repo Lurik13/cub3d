@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/15 04:43:05 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 05:43:52 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void	free_game(void *mlx, t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		mlx_destroy_image(mlx, game->texture->wall[i++]);
-		// mlx_destroy_image(mlx, game->texture->door[i]);
+		if (game->texture->wall[i])
+			mlx_destroy_image(mlx, game->texture->wall[i]);
+		i++;
 	}
 	free(game->texture);
 	free(game);

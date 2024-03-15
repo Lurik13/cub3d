@@ -6,10 +6,11 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/15 04:40:38 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 05:20:07 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 #include "mlx.h"
 #include "printf/ft_printf.h"
@@ -40,12 +41,21 @@ int	main(int argc, char **argv)
 		ft_dprintf(STDERR_FILENO, "Wrong file extension.\n");
 		exit(EXIT_FAILURE);
 	}
-	game = init_game();
 	mlx = mlx_init();
+	game = init_game();
 	fd = open(argv[1], O_RDONLY);
-	if (parse_attrs(mlx, fd, &game))
+	if (fd < 0)
+	{
+		perror(argv[1]);
+		free_game(mlx, game);
 		exit(EXIT_FAILURE);
-
+	}
+	if (parse_attrs(mlx, fd, &game))
+	{
+		ft_dprintf(2, "Malformed map attributes\n");
+		free_game(mlx, game);
+		exit(EXIT_FAILURE);
+	}
 	game->map = NULL;
 	parse_map(fd, mlx, game);
 	free_game(mlx, game);
