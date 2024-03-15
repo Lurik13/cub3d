@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 12:49:45 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 04:42:32 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ int	parse_attrs(void *mlx, int fd, t_game **game)
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	return (0);
 }

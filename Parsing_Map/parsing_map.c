@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/14 20:44:41 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/15 04:39:03 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,8 @@ void	parse_map(int fd, void *mlx, t_game *game)
 	}
 	check_chars(game->map, mlx, game);
 	game->map = clean_map(game->map, game);
-	is_closed(game, game->player.y, game->player.x);
-	print_map(game->map);
-	if (game->parsing_error)
-	{
+	if (is_closed(game, game->player.y, game->player.x))
 		printf("\x1b[38;2;180;0;0;7mUnclosed map\n\e[0m");
-		free_table(game->map);
-	}
+	print_map(game->map);
+	free_table(game->map);
 }

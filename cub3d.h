@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/14 19:12:51 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/15 04:38:24 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_player
 {
 	int	x;
 	int	y;
+	int	camera;
 }				t_player;
 
 typedef struct s_game
@@ -56,7 +57,7 @@ typedef struct s_game
 /* ************************************************************************* */
 /* check_recursive.c														 */
 /* ************************************************************************* */
-void	is_closed(t_game *game, int y, int x);
+int	is_closed(t_game *game, int y, int x);
 
 /* ************************************************************************* */
 /* parsing_map.c															 */
