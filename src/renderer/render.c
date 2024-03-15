@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/15 11:04:26 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/15 12:47:29 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	render(void *mlx, t_game *game)
 
 	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
 	if (window == NULL)
-		return (exit_error("Couldn't create the window\n", mlx, game));
+		return (exit_error("Couldn't create the window\n", game));
 
 	// raycasting
 	t_2dvector	plane;

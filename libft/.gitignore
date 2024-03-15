@@ -1,8 +1,0 @@
-*.swp
-*.o
-Test*
-a.out
-trace
-libft.a
-.clangd/
-compile_commands.json
