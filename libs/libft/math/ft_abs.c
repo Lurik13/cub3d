@@ -6,13 +6,13 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 03:58:43 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/01/08 03:59:43 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/16 10:49:13 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_abs(int a)
+double	ft_abs(double a)
 {
 	if (a > 0)
 		return (a);

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/15 12:32:12 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/16 10:32:51 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 {
 	int		fd;
 	t_game	*game;
-	// void	*mlx;
+	void	*mlx;
 
 	if (argc != 2)
 	{
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	parse_map(fd, game);
-	// mlx = mlx_init();
-	// render(mlx, game);
+	mlx = mlx_init();
+	render(mlx, game);
 	free_game(game);
 }

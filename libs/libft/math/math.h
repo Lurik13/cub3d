@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 02:16:04 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/01/18 03:55:14 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/16 10:49:31 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int		ft_power(int a, int b);
  * @param a An integer.
  * @return Returns the absolute of `a`.
  */
-int		ft_abs(int a);
+double	ft_abs(double a);
 
 #endif
