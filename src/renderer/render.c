@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 10:32:17 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 12:19:35 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ double	get_distance_per_column(int column, t_game *game)
 			ray_pos[DIRY] - game->player->position->v));
 }
 
-# define SCALE_FACTOR 10
-# define PLAYER_SIZE 5
+# define SCALE_FACTOR 24
+# define PLAYER_SIZE 6
 void	display_map(void *mlx, void *window, t_game *game)
 {
 	int	i;
@@ -86,7 +86,7 @@ void	display_map(void *mlx, void *window, t_game *game)
 		j = 0;
 		while (j < ft_tablen(game->map))
 		{
-			if (game->map[j][i] == ' ' || game->map[j][i] == 'n')
+			if (ft_strcontains(" n", game->map[j][i]))
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(0, 0, 0));
@@ -102,17 +102,36 @@ void	display_map(void *mlx, void *window, t_game *game)
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(30, 100, 0));
-			if (game->map[j][i] == 'n')
-			{
-				int	posY = (int)(game->player->position->h * 10) % 10;
-				int	posX = (int)(game->player->position->v * 10) % 10;
-				for (int k = posX; k < PLAYER_SIZE + posX; k++)
-					for (int l = posY; l < PLAYER_SIZE + posY; l++)
-						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(230, 200, 0));
-			}
 			j++;
 		}
 		i++;
+	}
+	double	ray[2];
+	double	ray_pos[2] = {game->player->position->v, game->player->position->h};
+	double	ray_dist_per_step[2];
+	t_2dvector	fov = {.h = 0.66f, .v=0};
+
+	get_ray_direction(ray, *game->player->camera, fov, 1);
+	ray_dist_per_step[DIRX] = 1;
+	ray_dist_per_step[DIRY] = 0;
+	// printf("coucou\n");
+	while (
+		   
+			game->map[(int)ray_pos[DIRY]][(int)ray_pos[DIRX]] != '1')
+	{
+		ray_pos[DIRX] += ray_dist_per_step[DIRX];
+		ray_pos[DIRY] += ray_dist_per_step[DIRY];
+		// mlx_pixel_put(mlx, window, game->player->position->v * SCALE_FACTOR + i, game->player->position->h * SCALE_FACTOR + j, ft_color(255, 0, 255));
+		// mlx_pixel_put(mlx, window, ray_pos[DIRX], ray_pos[DIRY], ft_color(255, 0, 1));
+	}
+	printf("Player is at %lf %lf, the wall is at %lf %lf\n", game->player->position->v, game->player->position->h, ray_pos[DIRX], ray_pos[DIRY]);
+	// le rayon va tout droit vers la droite.
+	for (int i = game->player->position->h; i < ray_pos[DIRX]; i++)
+	{
+		for (int j = game->player->position->v; j < ray_pos[DIRY]; j++)
+		{
+			mlx_pixel_put(mlx, window, i, j, ft_color(255, 0, 255));
+		}
 	}
 }
 
@@ -141,4 +160,7 @@ void	render(void *param)
 				mlx_pixel_put(mlx, window, x, i, ft_color(255, 0, 0));
 		}
 	}
+	for (int k = 0; k < PLAYER_SIZE; k++)
+		for (int l = 0; l < PLAYER_SIZE; l++)
+			mlx_pixel_put(mlx, window, game->player->position->v * SCALE_FACTOR + k, game->player->position->h * SCALE_FACTOR + l, ft_color(230, 200, 0));
 }
