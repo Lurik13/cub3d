@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/15 12:33:39 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 10:28:56 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	check_chars(char **map, t_game *game)
 				exit_error("Invalid char", game);
 			if (is_player(map[i][j]))
 			{
-				game->player->position->v = j;
-				game->player->position->h = i;
+				game->player->position->v = j + 1;
+				game->player->position->h = i + 1;
 				number_of_players++;
 			}
 			j++;
