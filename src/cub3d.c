@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/17 09:53:47 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:54:26 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	main(int argc, char **argv)
 	parse_map(fd, game);
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
+	// game->texture->mlx = mlx_init();
+	// game->texture->window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
 	if (window == NULL)
 		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
 	init_keybindings(window, game);

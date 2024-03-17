@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 15:59:52 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/17 17:01:49 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #define DIRX 0
 #define DIRY 1
 
-void	get_ray_direction(double	ray[2], t_2dvector camera, t_2dvector fov,
+void	get_ray_direction(double ray[2], t_2dvector camera, t_2dvector fov,
 		double cameraX)
 {
 	ray[DIRX] = camera.h + fov.v * cameraX;
@@ -75,6 +75,26 @@ double	get_distance_per_column(int column, t_game *game)
 
 # define SCALE_FACTOR 24
 # define PLAYER_SIZE 6
+
+//////////////////////////////////////////////////////////////////////////////// mise a jour de display_map
+// void	display_square(t_game *game, int colour, int i, int j)
+// {
+// 	int	k;
+// 	int	l;
+
+// 	k = 0;
+// 	while (k < SCALE_FACTOR)
+// 	{
+// 		l = 0;
+// 		while (l < SCALE_FACTOR)
+// 		{
+// 			mlx_pixel_put(game->texture->mlx, game->texture->window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, colour);
+// 			l++;
+// 		}
+// 		k++;
+// 	}
+// }
+
 void	display_map(void *mlx, void *window, t_game *game)
 {
 	int	i;
@@ -90,18 +110,22 @@ void	display_map(void *mlx, void *window, t_game *game)
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(0, 0, 0));
+				// display_square(game, ft_color(0, 0, 0), i, j);
 			if (game->map[j][i] == '1')
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(120, 50, 0));
+				// display_square(game, ft_color(120, 50, 0), i, j);
 			if (game->map[j][i] == '0')
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(0, 120, 120));
+				// display_square(game, ft_color(0, 120, 120), i, j);
 			if (game->map[j][i] == '.')
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(30, 100, 0));
+				// display_square(game, ft_color(30, 100, 0), i, j);
 			j++;
 		}
 		i++;
