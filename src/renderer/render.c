@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 10:26:13 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 10:32:17 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	display_map(void *mlx, void *window, t_game *game)
 			{
 				int	posY = (int)(game->player->position->h * 10) % 10;
 				int	posX = (int)(game->player->position->v * 10) % 10;
-				printf("Position : %d %d\n", posX, posY);
 				for (int k = posX; k < PLAYER_SIZE + posX; k++)
 					for (int l = posY; l < PLAYER_SIZE + posY; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(230, 200, 0));
