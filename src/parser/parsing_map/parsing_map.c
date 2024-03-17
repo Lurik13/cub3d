@@ -6,11 +6,25 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/17 10:28:56 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:20:57 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	choose_orientation(t_2dvector *camera, char c)
+{
+	camera->h = 0;
+	camera->v = 0;
+	if (c == 'N')
+		camera->v = 1;
+	else if (c == 'S')
+		camera->v = -1;
+	else if (c == 'E')
+		camera->h = 1;
+	else
+		camera->h = -1;
+}
 
 void	check_chars(char **map, t_game *game)
 {
@@ -29,8 +43,9 @@ void	check_chars(char **map, t_game *game)
 				exit_error("Invalid char", game);
 			if (is_player(map[i][j]))
 			{
-				game->player->position->v = j + 1;
-				game->player->position->h = i + 1;
+				game->player->position->v = j + 1.25;
+				game->player->position->h = i + 1.25;
+				choose_orientation(game->player->camera, game->map[i][j]);
 				number_of_players++;
 			}
 			j++;
@@ -147,7 +162,7 @@ void	parse_map(int fd, t_game *game)
 	}
 	check_chars(game->map, game);
 	game->map = clean_map(game->map, game);
-	if (is_closed(game, game->player->position->h, game->player->position->v))
+	if (!is_closed(game, game->player->position->h, game->player->position->v))
 		printf("\x1b[38;2;180;0;0;7mUnclosed map\n\e[0m");
 	print_map(game->map);
 }

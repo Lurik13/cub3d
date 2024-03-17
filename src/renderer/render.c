@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 12:19:35 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:59:52 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	display_map(void *mlx, void *window, t_game *game)
 		// mlx_pixel_put(mlx, window, game->player->position->v * SCALE_FACTOR + i, game->player->position->h * SCALE_FACTOR + j, ft_color(255, 0, 255));
 		// mlx_pixel_put(mlx, window, ray_pos[DIRX], ray_pos[DIRY], ft_color(255, 0, 1));
 	}
-	printf("Player is at %lf %lf, the wall is at %lf %lf\n", game->player->position->v, game->player->position->h, ray_pos[DIRX], ray_pos[DIRY]);
+	// printf("Player is at %lf %lf, the wall is at %lf %lf\n", game->player->position->v, game->player->position->h, ray_pos[DIRX], ray_pos[DIRY]);
 	// le rayon va tout droit vers la droite.
 	for (int i = game->player->position->h; i < ray_pos[DIRX]; i++)
 	{

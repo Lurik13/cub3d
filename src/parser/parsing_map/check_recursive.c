@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 19:01:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/15 12:33:49 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:20:38 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_closed(t_game *game, int y, int x)
 {
 	replace_chars(game, y, x);
 	if (game->map[y][x] == '.')
-		return (1);
+		return (0);
 	if (!is_checked(game->map[y][x + 1]))
 		is_closed(game, y, x + 1);
 	if (!is_checked(game->map[y][x - 1]))
@@ -50,5 +50,5 @@ int	is_closed(t_game *game, int y, int x)
 		is_closed(game, y + 1, x);
 	if (!is_checked(game->map[y - 1][x]))
 		is_closed(game, y - 1, x);
-	return (0);
+	return (1);
 }
