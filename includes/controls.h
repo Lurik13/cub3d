@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.h                                           :+:      :+:    :+:   */
+/*   controls.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 09:52:07 by aboyreau         ###   ########.fr       */
+/*   Created: 2024/03/17 09:25:45 by aboyreau          #+#    #+#             */
+/*   Updated: 2024/03/17 09:41:39 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_H
-# define RENDER_H
+#ifndef CONTROLS_H
+# define CONTROLS_H
 
-# include "mlx.h"
-# include "cub3d.h"
-# include "libft.h"
-
-# define WIDTH 1280
-# define HEIGHT 1024
-
-void	render(void *param);
+void	move(int keycode, t_game *game);
+void	init_keybindings(void *window, t_game *game);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/16 10:32:51 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 09:53:47 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "render.h"
 #include "str/ft_str.h"
 #include "cub3d.h"
+#include "controls.h"
 
 void	exit_error(char *str, t_game *game)
 {
@@ -31,6 +32,7 @@ int	main(int argc, char **argv)
 	int		fd;
 	t_game	*game;
 	void	*mlx;
+	void	*window;
 
 	if (argc != 2)
 	{
@@ -63,6 +65,12 @@ int	main(int argc, char **argv)
 	}
 	parse_map(fd, game);
 	mlx = mlx_init();
-	render(mlx, game);
+	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
+	if (window == NULL)
+		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
+	init_keybindings(window, game);
+	mlx_loop_hook(mlx, (void *)render, (void *[]){mlx, window, (void *)game});
+	mlx_loop(mlx);
+	mlx_destroy_window(mlx, window);
 	free_game(game);
 }

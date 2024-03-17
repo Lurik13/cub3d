@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 09:21:34 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/17 10:22:46 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ double	get_distance_per_column(int column, t_game *game)
 	double		ray[2];
 	double		ray_pos[2];
 	double		ray_dist_per_step[2];
-	// double		how_far_from_side[2];
 	t_2dvector	fov;
 	double		cameraX;
 
@@ -60,7 +59,6 @@ double	get_distance_per_column(int column, t_game *game)
 	ray_pos[DIRY] = game->player->position->v;
 	get_ray_direction(ray, *game->player->camera, fov, cameraX);
 	get_ray_dist_per_step(ray_dist_per_step, ray);
-	// printf("%lf %lf\n", ray_dist_per_step[DIRX], ray_dist_per_step[DIRY]);
 	while (ray_pos[DIRX] < ft_tablen(game->map) &&
 			ray_pos[DIRY] < game->longest_line && 
 			game->map[(int)ray_pos[DIRX]][(int)ray_pos[DIRY]] != '1')
@@ -76,6 +74,7 @@ double	get_distance_per_column(int column, t_game *game)
 }
 
 # define SCALE_FACTOR 10
+# define PLAYER_SIZE 5
 void	display_map(void *mlx, void *window, t_game *game)
 {
 	int	i;
@@ -87,6 +86,10 @@ void	display_map(void *mlx, void *window, t_game *game)
 		j = 0;
 		while (j < ft_tablen(game->map))
 		{
+			if (game->map[j][i] == ' ' || game->map[j][i] == 'n')
+				for (int k = 0; k < SCALE_FACTOR; k++)
+					for (int l = 0; l < SCALE_FACTOR; l++)
+						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(0, 0, 0));
 			if (game->map[j][i] == '1')
 				for (int k = 0; k < SCALE_FACTOR; k++)
 					for (int l = 0; l < SCALE_FACTOR; l++)
@@ -100,69 +103,43 @@ void	display_map(void *mlx, void *window, t_game *game)
 					for (int l = 0; l < SCALE_FACTOR; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(30, 100, 0));
 			if (game->map[j][i] == 'n')
-				for (int k = 3; k < SCALE_FACTOR - 3; k++)
-					for (int l = 3; l < SCALE_FACTOR - 3; l++)
+			{
+				int	posY = (int)(game->player->position->h * 10) % 10;
+				int	posX = (int)(game->player->position->v * 10) % 10;
+				printf("Position : %d %d\n", posX, posY);
+				for (int k = posX; k < PLAYER_SIZE + posX; k++)
+					for (int l = posY; l < PLAYER_SIZE + posY; l++)
 						mlx_pixel_put(mlx, window, i * SCALE_FACTOR + k, j * SCALE_FACTOR + l, ft_color(230, 200, 0));
+			}
 			j++;
 		}
 		i++;
 	}
 }
 
-void	render(void *mlx, t_game *game)
+void	render(void *param)
 {
-	void	*window;
+	void *mlx;
+	void *window;
+	t_game *game;
 	double	ray_norm;
 
-	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
-	if (window == NULL)
-		return (exit_error("Couldn't create the window\n", game));
+	mlx = ((void **) param)[0];
+	window = ((void **) param)[1];
+	game = ((void **) param)[2];
 	game->player->camera->v = -1;
 	game->player->camera->h = 0;
 	display_map(mlx, window, game);
-	while(1) // TODO replace with mlx loop and put the content in a mlx hook
+	for (int x = 0; x < WIDTH; x++)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		ray_norm = get_distance_per_column(x, game);
+		double	texture_height;
+
+		if (ray_norm)
 		{
-			ray_norm = get_distance_per_column(x, game);
-			double	texture_height;
-
-			if (ray_norm)
-			{
-				texture_height = (double)HEIGHT * (1 / ray_norm);
-				for (int i = HEIGHT / 2 - texture_height / 2; i < HEIGHT / 2 + texture_height / 2; i++)
-					mlx_pixel_put(mlx, window, x, i, ft_color(255, 0, 0));
-			}
+			texture_height = (double)HEIGHT * (1 / ray_norm);
+			for (int i = HEIGHT / 2 - texture_height / 2; i < HEIGHT / 2 + texture_height / 2; i++)
+				mlx_pixel_put(mlx, window, x, i, ft_color(255, 0, 0));
 		}
-		break ;
 	}
-	sleep(5);
-	mlx_destroy_window(mlx, window);
 }
-
-// void get_how_far_from_side_the_ray_is(double distances[2], int pos[2],
-// 		float	ray_direction[2], int *stepX, int *stepY,
-// 		int ray_pos[2], double dist_per_step[2])
-// {
-// 	if (ray_direction[DIRX] < 0)
-// 	{	
-// 		*stepX = -1;
-// 		distances[DIRX] = (pos[DIRX] - ray_pos[DIRX]) * dist_per_step[DIRX];
-// 	}
-// 	else
-// 	{
-// 		*stepX = 1;
-// 		distances[DIRX] = (ray_pos[DIRX] + 1 - pos[DIRX]) * dist_per_step[DIRX];
-// 	}
-// 	if (ray_direction[DIRY] < 0)
-// 	{	
-// 		*stepY = -1;
-// 		distances[DIRY] = (pos[DIRY] - ray_pos[DIRY]) * dist_per_step[DIRY];
-// 	}
-// 	else
-// 	{
-// 		*stepY = 1;
-// 		distances[DIRY] = (ray_pos[DIRY] + 1 - pos[DIRY]) * dist_per_step[DIRY];
-// 	}
-// }
-//

@@ -6,7 +6,7 @@
 #    By: lribette <lribette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/15 12:38:10 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/17 09:45:09 by aboyreau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC = cub3d \
 	  parser/parsing_map/check_recursive parser/parsing_map/parsing_map parser/parsing_map/parsing_utils \
 	  parser/parse_attrs \
 	  game/game \
-	  renderer/render
+	  renderer/render \
+	  controls/init controls/controls
 
 LIBS = libs/libft/libft.a libs/minilibx-linux/libmlx.a
 
