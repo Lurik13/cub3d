@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/17 16:20:57 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:30:20 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	choose_orientation(t_2dvector *camera, char c)
 	camera->h = 0;
 	camera->v = 0;
 	if (c == 'N')
-		camera->v = 1;
-	else if (c == 'S')
 		camera->v = -1;
+	else if (c == 'S')
+		camera->v = 1;
 	else if (c == 'E')
 		camera->h = 1;
 	else

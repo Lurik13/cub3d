@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/18 06:49:55 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:14:37 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int	main(int argc, char **argv)
 	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
 	game->texture->mlx = mlx;
 	game->texture->window = window;
-	// game->texture->mlx = mlx_init();
-	// game->texture->window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
 	if (window == NULL)
 		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
 	init_keybindings(window, game);

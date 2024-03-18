@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 11:39:16 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:25:06 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,12 @@ void	display_player(t_game *game)
 void	display_player_orientation(t_game *game)
 {
 	(void) game;
-	for (int i = 0; i < WIDTH; i++)
-	{
-		send_ray(game, (2 * i) / (double)WIDTH - 1, ft_color(255, 0, 0));
-	}
+	// for (int i = 0; i < WIDTH; i++)
+	// {
+		send_ray(game, (1), ft_color(255, 0, 0));
+		send_ray(game, (0), ft_color(0, 255, 255));
+		send_ray(game, (-1), ft_color(255, 0, 0));
+	// }
 	// send_ray(game, 1 / (double)WIDTH - 1, ft_color(0, 0, 255));
 	// send_ray(game, WIDTH / (double)WIDTH - 1, ft_color(0, 0, 255));
 	// send_ray(game, (2 * 1279) / (double)WIDTH - 1, ft_color(255, 0, 0));
