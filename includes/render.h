@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 09:52:07 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:38:55 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 # define WIDTH 1280
 # define HEIGHT 1024
+
+# define DIRX 0
+# define DIRY 1
 
 void	render(void *param);
 
