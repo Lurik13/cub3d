@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:35:51 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 09:42:47 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:35:41 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 void	init_keybindings(void *window, t_game *game)
 {
-	mlx_key_hook(window, (void *)move, (void *)game);
+	mlx_hook(window, 2, 1L << 0, (void *)move, (void *)game);
 }
