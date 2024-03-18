@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 13:31:00 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:28:58 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,15 @@
 void	get_ray_direction(double ray[2], t_2dvector camera, t_2dvector fov,
 		double cameraX)
 {
-	ray[DIRY] = camera.h + fov.h * cameraX;
-	ray[DIRX] = camera.v + fov.v * cameraX;
-	// printf("%'.2lf; %'.2lf\n", ray[DIRX], ray[DIRY]);
+	ray[DIRX] = camera.h + fov.h * cameraX;
+	ray[DIRY] = camera.v + fov.v * cameraX;
+	printf("POS: {%f, %f}\n", ray[DIRX], ray[DIRY]);
 }
 
 void	get_ray_dist_per_step(double ray_dist[2], double ray[2])
 {
-	if (ray[DIRX] != 0)
-		ray_dist[DIRX] = ft_abs(1 / ray[DIRX]) / 10;
-	else
-		ray_dist[DIRX] = 0.1;
-	if (ray[DIRY] != 0)
-		ray_dist[DIRY] = ft_abs(1 / ray[DIRY]) / 10;
-	else
-		ray_dist[DIRY] = 0.1;
+	ray_dist[DIRX] = ray[DIRX] / 10;
+	ray_dist[DIRY] = ray[DIRY] / 10;
 	// printf("%'.2lf; %'.2lf\n", ray[DIRX], ray[DIRY]);
 }
 
@@ -52,25 +46,18 @@ void	send_ray(t_game *game, double start_position, int color)
 	double		ray_dist_per_step[2];
 	t_2dvector	fov;
 
-	game->player->camera->h = 1;
-	game->player->camera->v = -1;
-	ray_pos = (double []){game->player->position->v, game->player->position->h};
+	// game->player->camera->h = 1;
+	// game->player->camera->v = -1;
+	ray_pos = (double []){game->player->position->h, game->player->position->v};
 	fov = (t_2dvector){.h = 0.66f, .v = 0};
 	get_ray_direction(ray_dir, *game->player->camera, fov, start_position);
 	get_ray_dist_per_step(ray_dist_per_step, ray_dir);
-	while (is_in_map(ray_pos, game) && \
-		game->map[(int)ray_pos[DIRY]][(int)ray_pos[DIRX]] != '1')
+	while (is_in_map(ray_pos, game) && game->map[(int)ray_pos[DIRY]][(int)ray_pos[DIRX]] != '1')
 	{
-		if (ray_dir[DIRY] > 0)
-			ray_pos[DIRY] -= ray_dist_per_step[DIRY];
-		else
-			ray_pos[DIRY] += ray_dist_per_step[DIRY];
-		if (ray_dir[DIRX] > 0)
-			ray_pos[DIRX] -= ray_dist_per_step[DIRX];
-		else
-			ray_pos[DIRX] += ray_dist_per_step[DIRX];
 		mlx_pixel_put(game->texture->mlx, game->texture->window,
 			ray_pos[DIRX] * SCALE_FACTOR, ray_pos[DIRY] * SCALE_FACTOR, color);
+		ray_pos[DIRY] += ray_dist_per_step[DIRY];
+		ray_pos[DIRX] += ray_dist_per_step[DIRX];
 	}
 	distance = ft_pythagoras(
 			ray_pos[DIRX] - game->player->position->v,

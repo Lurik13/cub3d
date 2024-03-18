@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 13:25:06 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:34:20 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	display_player(t_game *game)
 			mlx_pixel_put(
 				game->texture->mlx, \
 				game->texture->window, \
-				game->player->position->v * SCALE_FACTOR + k, \
-				game->player->position->h * SCALE_FACTOR + l, \
+				game->player->position->h * SCALE_FACTOR + k, \
+				game->player->position->v * SCALE_FACTOR + l, \
 				ft_color(230, 200, 0) \
 			);
 			l++;
@@ -70,19 +70,24 @@ void	display_player(t_game *game)
 
 void	display_player_orientation(t_game *game)
 {
-	(void) game;
-	// for (int i = 0; i < WIDTH; i++)
-	// {
-		send_ray(game, (1), ft_color(255, 0, 0));
-		send_ray(game, (0), ft_color(0, 255, 255));
-		send_ray(game, (-1), ft_color(255, 0, 0));
-	// }
+	// static float t = -1;
+
+	// t += 0.01;
+	// if (1 < t)
+	// 	t = -1;
+	// (void) game;
+	send_ray(game, 0, ft_color(0, 255, 255));
+	 for (int i = 0; i < WIDTH; i++)
+	 {
+		send_ray(game, (float)(i * 2 - WIDTH) / (float)WIDTH, ft_color(255, 0, 0));
+		// send_ray(game, (-1), ft_color(255, 0, 0));
+	 }
 	// send_ray(game, 1 / (double)WIDTH - 1, ft_color(0, 0, 255));
 	// send_ray(game, WIDTH / (double)WIDTH - 1, ft_color(0, 0, 255));
 	// send_ray(game, (2 * 1279) / (double)WIDTH - 1, ft_color(255, 0, 0));
 }
 
-// Le if sur le caractere n permet d'eviter l'effet limace
+// Le if sur le caractere n permet d'eviter l'effet limace //quel if?
 void	display_map(t_game *game)
 {
 	int	i;
