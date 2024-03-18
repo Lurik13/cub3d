@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 09:31:53 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:45:42 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ void	get_ray_dist_per_step(double ray_dist[2], double ray[2])
 		ray_dist[DIRY] = (1 - ft_abs(1 / ray[DIRY])) / 10;
 	else
 		ray_dist[DIRY] = 0;
-}
-
-double	pythagoras(double ab, double bc)
-{
-	return (sqrt(ab * ab + bc * bc));
 }
 
 int	is_in_map(double coord[2], t_game *game)
@@ -76,7 +71,7 @@ void	send_ray(t_game *game, double start_position, int color)
 		ray_pos[DIRX] = (int)ray_pos[DIRX];
 	else
 		ray_pos[DIRY] = (int)ray_pos[DIRY];
-	distance = pythagoras(
+	distance = ft_pythagoras(
 			ray_pos[DIRX] - game->player->position->v,
 			ray_pos[DIRY] - game->player->position->h \
 		);

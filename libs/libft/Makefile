@@ -6,7 +6,7 @@
 #    By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/13 17:25:01 by atu               #+#    #+#              #
-#    Updated: 2024/03/15 05:52:26 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/18 09:46:08 by aboyreau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC = btree/btree_insert_data btree/btree_apply_suffix btree/btree_apply_prefix 
 	str/ft_strlen str/ft_strcontains str/ft_strtok str/ft_strreplace str/ft_strnjoin str/ft_indexof str/ft_split str/ft_strjoin str/ft_strmapi str/ft_strdup str/ft_strncmp str/ft_strlcat str/ft_strlcpy str/ft_striteri str/ft_strnstr str/ft_strtrim str/ft_strchr str/ft_substr str/ft_strrchr str/ft_strcjoin str/ft_strcmp str/ft_strstartswith str/ft_strendswith \
 	mem/ft_memcpy mem/ft_calloc mem/ft_memmove mem/ft_memchr mem/ft_bzero mem/ft_memcmp mem/ft_memset mem/ft_grow mem/ft_quicksort mem/ft_fail_malloc \
 	char/ft_isdigit char/ft_tolower char/ft_toupper char/ft_isalpha char/ft_isascii char/ft_isalnum char/ft_isprint \
-	math/ft_min math/ft_max math/ft_power math/ft_abs \
+	math/ft_min math/ft_max math/ft_power math/ft_abs math/ft_pythagoras \
 	printf/ft_printf printf/handlers printf/handlers2 printf/flags printf/ft_vprintf \
 	colors/ft_colors \
 	vector/vector \
