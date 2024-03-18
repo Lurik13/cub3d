@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 09:45:42 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:50:06 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	get_ray_direction(double ray[2], t_2dvector camera, t_2dvector fov,
 {
 	ray[DIRX] = camera.h + fov.h * cameraX;
 	ray[DIRY] = camera.v + fov.v * cameraX;
+	printf("X : %'.2lf Y : %'.2lf\n", ray[DIRX], ray[DIRY]);
 }
 
 void	get_ray_dist_per_step(double ray_dist[2], double ray[2])
@@ -40,16 +41,16 @@ void	get_ray_dist_per_step(double ray_dist[2], double ray[2])
 
 int	is_in_map(double coord[2], t_game *game)
 {
-	if (coord[DIRY] > ft_tablen(game->map))
+	if (coord[DIRY] > ft_tablen(game->map) - 1 || coord[DIRY] < 0)
 		return (0);
-	if (coord[DIRX] > game->longest_line)
+	if (coord[DIRX] > game->longest_line - 1 || coord[DIRX] < 0)
 		return (0);
 	return (1);
 }
 
 void	send_ray(t_game *game, double start_position, int color)
 {
-	double		ray[2];
+	double		ray_dir[2];
 	double		*ray_pos;
 	double		distance;
 	double		ray_dist_per_step[2];
@@ -57,8 +58,8 @@ void	send_ray(t_game *game, double start_position, int color)
 
 	ray_pos = (double []){game->player->position->v, game->player->position->h};
 	fov = (t_2dvector){.h = 0.66f, .v = 0};
-	get_ray_direction(ray, *game->player->camera, fov, start_position);
-	get_ray_dist_per_step(ray_dist_per_step, ray);
+	get_ray_direction(ray_dir, *game->player->camera, fov, start_position);
+	get_ray_dist_per_step(ray_dist_per_step, ray_dir);
 	while (is_in_map(ray_pos, game) && \
 		game->map[(int)ray_pos[DIRY]][(int)ray_pos[DIRX]] != '1')
 	{
@@ -67,6 +68,7 @@ void	send_ray(t_game *game, double start_position, int color)
 		ray_pos[DIRX] += ray_dist_per_step[DIRX];
 		ray_pos[DIRY] += ray_dist_per_step[DIRY];
 	}
+	// Compute the travelled distance.
 	if ((int) game->player->position->h == (int) ray_pos[DIRY])
 		ray_pos[DIRX] = (int)ray_pos[DIRX];
 	else
@@ -93,8 +95,6 @@ void	render(void *param)
 	mlx = ((void **) param)[0];
 	window = ((void **) param)[1];
 	game = ((void **) param)[2];
-	// game->player->camera->v = -1;
-	// game->player->camera->h = 0;
 	display_map(game);
 }
 // raycasting but it doesnt work
