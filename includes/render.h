@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/19 07:19:16 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/19 11:56:33 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ void	send_ray(t_game *game, double start_position, int color);
 void	display_map(t_game *game);
 
 void	render(void *param);
+
+void	display_square(t_game *game, int colour, int h_start, int v_start);
 
 #endif

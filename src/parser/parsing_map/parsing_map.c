@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/18 13:30:20 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:27:02 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	check_chars(char **map, t_game *game)
 				exit_error("Invalid char", game);
 			if (is_player(map[i][j]))
 			{
-				game->player->position->v = j + 1.25;
-				game->player->position->h = i + 1.25;
+				game->player->position->v = i + 1.25;
+				game->player->position->h = j + 1.25;
 				choose_orientation(game->player->camera, game->map[i][j]);
 				number_of_players++;
 			}
@@ -162,7 +162,7 @@ void	parse_map(int fd, t_game *game)
 	}
 	check_chars(game->map, game);
 	game->map = clean_map(game->map, game);
-	if (!is_closed(game, game->player->position->h, game->player->position->v))
+	if (!is_closed(game, game->player->position->v, game->player->position->h))
 		printf("\x1b[38;2;180;0;0;7mUnclosed map\n\e[0m");
 	print_map(game->map);
 }

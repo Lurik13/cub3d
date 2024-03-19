@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/19 07:26:31 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:30:26 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	display_player_orientation(t_game *game)
 {
 	int	column;
 
-	send_ray(game, 0, ft_color(0, 255, 255));
 	column = 0;
 	while (column < WIDTH)
 	{
@@ -80,6 +79,7 @@ void	display_player_orientation(t_game *game)
 		);
 		column++;
 	}
+	send_ray(game, 0, ft_color(0, 255, 255));
 }
 
 void	display_map(t_game *game)

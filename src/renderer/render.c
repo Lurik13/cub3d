@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/19 07:28:57 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:42:14 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,23 @@
 #include "vector/vector.h"
 
 void	get_ray_direction(double ray[2], t_2dvector camera, t_2dvector fov,
-		double cameraX)
+		double start_position)
 {
-	ray[H] = camera.h + fov.h * cameraX;
-	ray[V] = camera.v + fov.v * cameraX;
-	// printf("POS: {%'.2lf, %'.2lf}\n", ray[H], ray[V]);
+	ray[H] = camera.h + fov.h * start_position;
+	ray[V] = camera.v + fov.v * start_position;
 }
 
 void	get_ray_dist_per_step(double ray_dist[2], double ray[2])
 {
-	ray_dist[H] = ray[H] / 2;
-	ray_dist[V] = ray[V] / 2;
+	if (ray[H] != 0)
+		ray_dist[H] = ft_abs(1 /ray[H]);
+	else
+		ray_dist[H] = ft_power(10, 30);
+	if (ray[V] != 0)
+		ray_dist[V] = ft_abs(1 / ray[V]);
+	else
+		ray_dist[V] = ft_power(10, 30);
 }
-	// printf("%'.2lf; %'.2lf\n", ray[H], ray[V]);
 
 int	is_in_map(double coord[2], t_game *game)
 {
@@ -40,6 +44,7 @@ int	is_in_map(double coord[2], t_game *game)
 
 void	send_ray(t_game *game, double start_position, int color)
 {
+	// GET_RAY_DIR_AND_DIST
 	double		ray_dir[2];
 	double		*ray_pos;
 	double		distance;
@@ -47,29 +52,93 @@ void	send_ray(t_game *game, double start_position, int color)
 	t_2dvector	fov;
 
 	ray_pos = (double []){game->player->position->h, game->player->position->v};
-	fov = (t_2dvector){.h = 0.66f, .v = 0};
+	fov = (t_2dvector){.h = 0.66, .v = 0.66};
 	get_ray_direction(ray_dir, *game->player->camera, fov, start_position);
 	get_ray_dist_per_step(ray_dist_per_step, ray_dir);
-	while (is_in_map(ray_pos, game) && \
-		game->map[(int)ray_pos[V]][(int)ray_pos[H]] != '1')
+
+
+	//
+	int map_h = (int)(ray_pos[H]);
+	int map_v = (int)(ray_pos[V]);
+	//
+	// GET_DDA_INFOS
+	int step_h;
+	int step_v;
+	int side_dist_h;
+	int side_dist_v;
+	if (ray_dir[H] < 0)
 	{
-		mlx_pixel_put(game->texture->mlx, game->texture->window,
-			ray_pos[H] * SCALE_FACTOR, ray_pos[V] * SCALE_FACTOR, color);
-		ray_pos[V] += ray_dist_per_step[V];
-		ray_pos[H] += ray_dist_per_step[H];
+		step_h = -1;
+		side_dist_h = (ray_pos[H] - map_h) * ray_dist_per_step[H];
 	}
-	distance = ft_pythagoras(
-			ray_pos[H] - game->player->position->v,
-			ray_pos[V] - game->player->position->h \
-		);
+	else
+	{
+		step_h = 1;
+		side_dist_h = (map_h + 1.0 - ray_pos[H]) * ray_dist_per_step[H];
+	}
+	if (ray_dir[V] < 0)
+	{
+		step_v = -1;
+		side_dist_v = (ray_pos[V] - map_v) * ray_dist_per_step[V];
+	}
+	else
+	{
+		step_v = 1;
+		side_dist_v = (map_v + 1.0 - ray_pos[V]) * ray_dist_per_step[V];
+	}
+
+
+	int	side;
+	int	hit = 0;
+	// DDA
+	while (hit == 0)
+	{
+		// display_square(game, color, map_h, map_v);
+		if (side_dist_h < side_dist_v)
+		{
+			side_dist_h += ray_dist_per_step[H];
+			map_h += step_h;
+			side = 0;
+		}
+		else
+		{
+			side_dist_v += ray_dist_per_step[V];
+			map_v += step_v;
+			side = 1;
+		}
+		if (game->map[map_v][map_h] == '1')
+			hit = 1;
+		for (float i = map_h; i < map_h + 1; i += 0.1)
+		{
+			for (float j = map_v; j < map_v + 1; j += 0.1)
+			{
+				mlx_pixel_put(\
+					game->texture->mlx, \
+					game->texture->window, \
+					i * SCALE_FACTOR, \
+					j * SCALE_FACTOR, \
+					color);
+			}
+		}
+	}
+	if (side == 0)
+		distance = side_dist_h - ray_dist_per_step[H];
+	else
+		distance = side_dist_v - ray_dist_per_step[V];
+
+	// for (double j = map_h; (int)j != (int)ray_pos[H]; j += ft_abs(ray_pos[H] - map_h) / 100000000000)
+	// {
+	// 	for (double i = ray_pos[V]; (int)i != (int)map_v; i += ft_abs(ray_pos[V] - map_v) / 100000000000)
+	// 	{
+	// 		mlx_pixel_put(game->texture->mlx, 
+	// 				game->texture->window, 
+	// 				j * SCALE_FACTOR,
+	// 				i * SCALE_FACTOR, 
+	// 				ft_color(255, 255, 255));
+	// 	}
+	// }
+	// printf("%lf\n", distance);
 }
-// debug printf
-	// printf("Player is at %'.2lf %'.2lf, the wall is at %'.2lf %'.2lf\n", 
-	// 	game->player->position->v, game->player->position->h,
-	// 	ray_pos[H], ray_pos[V]
-	// );
-	// printf("The ray travelled %'.2lf\n", distance);
-// end of debug printf
 
 void	render(void *param)
 {
