@@ -6,12 +6,13 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 06:34:15 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/19 07:25:23 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "controls.h"
+#include "render.h"
 
 void	ft_move(t_game *game, double move_h, double move_v)
 {
@@ -31,7 +32,7 @@ void	move(int keycode, t_game *game)
 {
 	double	movement;
 
-	movement = 0.25;
+	movement = 0.05 * SCALE_FACTOR / PLAYER_SIZE;
 	// printf("%d\n", keycode);
 	if (keycode == LEFT_KEY)
 		ft_move(game, 0, - movement);

@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 13:25:06 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/19 07:26:31 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,86 +19,85 @@ static const int	g_colors[256] = {\
 	// ['c'] = 0b00000001111111111111111111111111
 };
 
-void	display_square(t_game *game, int colour, int i, int j)
+void	display_square(t_game *game, int colour, int h_start, int v_start)
 {
-	int	k;
-	int	l;
+	int	h;
+	int	v;
 
-	k = 0;
-	while (k < SCALE_FACTOR)
+	h = 0;
+	while (h < SCALE_FACTOR)
 	{
-		l = 0;
-		while (l < SCALE_FACTOR)
+		v = 0;
+		while (v < SCALE_FACTOR)
 		{
-			mlx_pixel_put \
-			(
+			mlx_pixel_put(
 				game->texture->mlx, \
 				game->texture->window, \
-				i * SCALE_FACTOR + k, \
-				j * SCALE_FACTOR + l, \
-				colour \
-			);
-			l++;
+				h_start * SCALE_FACTOR + h, \
+				v_start * SCALE_FACTOR + v, \
+				colour);
+			v++;
 		}
-		k++;
+		h++;
 	}
 }
 
 void	display_player(t_game *game)
 {
-	int	k;
-	int	l;
+	int	h;
+	int	v;
 
-	k = 0;
-	while (k < PLAYER_SIZE)
+	h = 0;
+	while (h < PLAYER_SIZE)
 	{
-		l = 0;
-		while (l < PLAYER_SIZE)
+		v = 0;
+		while (v < PLAYER_SIZE)
 		{
-			mlx_pixel_put(
-				game->texture->mlx, \
-				game->texture->window, \
-				game->player->position->v * SCALE_FACTOR + k, \
-				game->player->position->h * SCALE_FACTOR + l, \
-				ft_color(230, 200, 0) \
-			);
-			l++;
+			mlx_pixel_put(\
+					game->texture->mlx, \
+					game->texture->window, \
+					game->player->position->h * SCALE_FACTOR + h, \
+					game->player->position->v * SCALE_FACTOR + v, \
+					ft_color(230, 200, 0));
+			v++;
 		}
-		k++;
+		h++;
 	}
 }
 
 void	display_player_orientation(t_game *game)
 {
-	(void) game;
-	// for (int i = 0; i < WIDTH; i++)
-	// {
-		send_ray(game, (1), ft_color(255, 0, 0));
-		send_ray(game, (0), ft_color(0, 255, 255));
-		send_ray(game, (-1), ft_color(255, 0, 0));
-	// }
-	// send_ray(game, 1 / (double)WIDTH - 1, ft_color(0, 0, 255));
-	// send_ray(game, WIDTH / (double)WIDTH - 1, ft_color(0, 0, 255));
-	// send_ray(game, (2 * 1279) / (double)WIDTH - 1, ft_color(255, 0, 0));
+	int	column;
+
+	send_ray(game, 0, ft_color(0, 255, 255));
+	column = 0;
+	while (column < WIDTH)
+	{
+		send_ray(\
+			game, \
+			(double)(column * 2 - WIDTH) / (double)WIDTH, \
+			ft_color(255, 0, 0) \
+		);
+		column++;
+	}
 }
 
-// Le if sur le caractere n permet d'eviter l'effet limace
 void	display_map(t_game *game)
 {
-	int	i;
-	int	j;
+	int	h;
+	int	v;
 
-	i = 0;
-	while (i <= game->longest_line)
+	h = 0;
+	while (h <= game->longest_line)
 	{
-		j = 0;
-		while (j < ft_tablen(game->map))
+		v = 0;
+		while (v < ft_tablen(game->map))
 		{
-			display_square(game, g_colors[(int)game->map[j][i]], i, j);
+			display_square(game, g_colors[(int)game->map[v][h]], h, v);
 			display_player(game);
-			j++;
+			v++;
 		}
-		i++;
+		h++;
 	}
 	display_player_orientation(game);
 }

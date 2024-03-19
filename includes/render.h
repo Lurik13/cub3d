@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/18 08:44:13 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/19 07:19:16 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # define WIDTH 1280
 # define HEIGHT 1024
 
-# define DIRX 0
-# define DIRY 1
+# define H 0
+# define V 1
 
 # define SCALE_FACTOR 24
 # define PLAYER_SIZE 6
