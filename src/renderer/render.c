@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/20 12:49:30 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:24:01 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	get_ray_direction(t_ray *ray, t_player player, double start_position);
 void	get_ray_dist_per_step(t_ray *ray);
-void	get_line_height(t_game *game, int col, t_ray ray);
+void	get_line_height(t_game *game, int col, t_ray *ray);
 
 void	render(void *param)
 {
@@ -38,14 +38,15 @@ void	send_ray(t_game *game, double start_position, int color, int column)
 	(void) color;
 	ray.ray_start_pos[H] = game->player->position->h;
 	ray.ray_start_pos[V] = game->player->position->v;
-	// printf("Player coords : %f %f\n", game->player->position->h, game->player->position->v);
 	ray.coords[H] = (int)ray.ray_start_pos[H];
 	ray.coords[V] = (int)ray.ray_start_pos[V];
+	// printf("Ray start pos : %f %f\n", game->player->position->h, game->player->position->v);
+	// printf("Ray coords : %d %d\n", ray.coords[H], ray.coords[V]);
 	get_ray_direction(&ray, *game->player, start_position);
 	get_ray_dist_per_step(&ray);
 	get_side_dists(&ray);
 	search_for_a_wall(&ray, game);
-	get_line_height(game, column, ray);
+	get_line_height(game, column, &ray);
 }
 
 void	get_ray_direction(t_ray *ray, t_player player, double start_position)
@@ -129,7 +130,8 @@ void	search_for_a_wall(t_ray *ray, t_game *game)
 	hit = 0;
 	while (hit == 0)
 	{
-		if (ray->side_dist[H] < ray->side_dist[V]) {
+		if (ray->side_dist[H] < ray->side_dist[V])
+		{
 			ray->side_dist[H] += ray->ray_dist_per_step[H];
 			ray->coords[H] += ray->step[H];
 			ray->side = 0;
@@ -149,28 +151,31 @@ void	search_for_a_wall(t_ray *ray, t_game *game)
 		ray->distance = ray->side_dist[V] - ray->ray_dist_per_step[V];
 }
 
-void	get_line_height(t_game *game, int col, t_ray ray)
+void	get_line_height(t_game *game, int col, t_ray *ray)
 {
 	int	line_height;
 	int	color;
-	int	line[2];
+	(void)game;
+	(void)col;
 
-	line_height = (int) HEIGHT / ray.distance;
-	line[0] = - line_height / 2 + HEIGHT / 2;
-	if (line[0] < 0)
-		line[0] = 0;
-	line[1] = line_height / 2 + HEIGHT / 2;
-	if (line[1] >= WIDTH)
-		line[1] = HEIGHT - 1;
-	for (int l = line[0]; l < line[1]; l++)
-	{
-		// printf("from %d to %d\n", line[0], line[1]);
-		color = ft_color(255, 127, 125);
-		if (ray.side == 0)
-			color = color / 2;
-		mlx_pixel_put(game->texture->mlx, game->texture->window, col, l, color);
-	}
+	line_height = (int) (HEIGHT / ray->distance);
+	ray->line[0] = - line_height / 2 + HEIGHT / 2;
+	if (ray->line[0] < 0)
+		ray->line[0] = 0;
+	if (ray->line[0] >= HEIGHT)
+		ray->line[0] = HEIGHT - 1;
+	ray->line[1] = line_height / 2 + HEIGHT / 2;
+	if (ray->line[1] >= HEIGHT)
+		ray->line[1] = HEIGHT - 1;
 }
+	// for (int l = ray->line[0]; l < ray->line[1]; l++)
+	// {
+	// 	// printf("from %d to %d\n", line[0], line[1]);
+	// 	color = ft_color(255, 127, 125);
+	// 	if (ray->side == 1)
+	// 		color = color / 2;
+	// 	mlx_pixel_put(game->texture->mlx, game->texture->window, col, l, color);
+	// }
 
 int	is_in_map(double coord[2], t_game *game)
 {

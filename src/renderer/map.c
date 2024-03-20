@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/20 12:52:39 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:35:34 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,15 @@ void	display_player_orientation(t_game *game)
 	column = 0;
 	while (column < WIDTH)
 	{
+		// send_ray(\
+		// 	game, \
+		// 	(double)(column * 2 - WIDTH) / (double)WIDTH, \
+		// 	ft_color(255, 0, 0), \
+		// 	column \
+		// );
 		send_ray(\
 			game, \
-			(double)(column * 2 - WIDTH) / (double)WIDTH, \
+			(double)(2 * column / WIDTH - 1), \
 			ft_color(255, 0, 0), \
 			column \
 		);
