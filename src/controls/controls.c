@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/19 09:07:11 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:56:13 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ void	ft_move(t_game *game, double move_v, double move_h)
 	}
 }
 
+void	ft_rotate(t_game *game, double movement)
+{
+	game->player->fov.h -= movement;
+	game->player->fov.v += movement;
+	game->player->camera->h -= movement;
+	game->player->camera->v += movement;
+}
+
 void	move(int keycode, t_game *game)
 {
 	double	movement;
@@ -45,6 +53,10 @@ void	move(int keycode, t_game *game)
 		ft_move(game, +movement, 0);
 	else if (keycode == UP_KEY)
 		ft_move(game, -movement, 0);
+	//else if (keycode == 65361)
+	//	ft_rotate(game, -movement);
+	//else if (keycode == RIGHT_ARROW_KEY)
+	//	ft_rotate(game, +movement); 
 }
 	// printf("%d\n", keycode);
 	// 	else if (keycode == 65364)

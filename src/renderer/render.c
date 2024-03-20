@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/19 12:42:14 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:41:27 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 #include "cub3d.h"
 #include "vector/vector.h"
 
-void	get_ray_direction(double ray[2], t_2dvector camera, t_2dvector fov,
-		double start_position)
+void	get_ray_direction(t_ray *ray, t_player player, double start_position)
 {
-	ray[H] = camera.h + fov.h * start_position;
-	ray[V] = camera.v + fov.v * start_position;
+	ray->ray_start_pos[H] = player.camera->h + player.fov.h * start_position;
+	ray->ray_start_pos[V] = player.camera->v + player.fov.v * start_position;
 }
 
-void	get_ray_dist_per_step(double ray_dist[2], double ray[2])
+void	get_ray_dist_per_step(t_ray *ray)
 {
-	if (ray[H] != 0)
-		ray_dist[H] = ft_abs(1 /ray[H]);
+	if (ray->ray_start_pos[H] != 0)
+		ray->ray_dist_per_step[H] = ft_abs(1 / ray->ray_start_pos[H]);
 	else
-		ray_dist[H] = ft_power(10, 30);
-	if (ray[V] != 0)
-		ray_dist[V] = ft_abs(1 / ray[V]);
+		ray->ray_dist_per_step[H] = ft_power(10, 30);
+	if (ray->ray_start_pos[V] != 0)
+		ray->ray_dist_per_step[V] = ft_abs(1 / ray->ray_start_pos[V]);
 	else
-		ray_dist[V] = ft_power(10, 30);
+		ray->ray_dist_per_step[V] = ft_power(10, 30);
+	// printf("%'.2lf %'.2lf\n", ray->ray_dist_per_step[H], ray->ray_dist_per_step[V]);
 }
 
 int	is_in_map(double coord[2], t_game *game)
@@ -42,102 +42,128 @@ int	is_in_map(double coord[2], t_game *game)
 	return (1);
 }
 
-void	send_ray(t_game *game, double start_position, int color)
+// GET_RAY_DIR_AND_DIST
+void	send_ray(t_game *game, double start_position, int color, int column)
 {
-	// GET_RAY_DIR_AND_DIST
-	double		ray_dir[2];
-	double		*ray_pos;
-	double		distance;
-	double		ray_dist_per_step[2];
-	t_2dvector	fov;
+	t_ray	ray;
 
-	ray_pos = (double []){game->player->position->h, game->player->position->v};
-	fov = (t_2dvector){.h = 0.66, .v = 0.66};
-	get_ray_direction(ray_dir, *game->player->camera, fov, start_position);
-	get_ray_dist_per_step(ray_dist_per_step, ray_dir);
+	(void) color;
+	ray.ray_start_pos[H] = game->player->position->h;
+	ray.ray_start_pos[V] = game->player->position->v;
+	// printf("Player coords : %f %f\n", game->player->position->h, game->player->position->v);
+	ray.coords[H] = (int)ray.ray_start_pos[H];
+	ray.coords[V] = (int)ray.ray_start_pos[V];
+	get_ray_direction(&ray, *game->player, start_position);
+	get_ray_dist_per_step(&ray);
+	get_side_dists(&ray);
+	search_for_a_wall(&ray, game, column);
+}
 
-
-	//
-	int map_h = (int)(ray_pos[H]);
-	int map_v = (int)(ray_pos[V]);
-	//
-	// GET_DDA_INFOS
-	int step_h;
-	int step_v;
-	int side_dist_h;
-	int side_dist_v;
-	if (ray_dir[H] < 0)
+// GET_DDA_INFOS
+void	get_side_dists(t_ray *ray)
+{
+	if (ray->ray_dir[H] < 0)
 	{
-		step_h = -1;
-		side_dist_h = (ray_pos[H] - map_h) * ray_dist_per_step[H];
+		ray->step[H] = -1;
+		ray->side_dist[H] = (ray->ray_start_pos[H] - ray->coords[H]) * ray->ray_dist_per_step[H];
 	}
 	else
 	{
-		step_h = 1;
-		side_dist_h = (map_h + 1.0 - ray_pos[H]) * ray_dist_per_step[H];
+		ray->step[H] = 1;
+		ray->side_dist[H] = (ray->coords[H] + 1.0 - ray->ray_start_pos[H]) * ray->ray_dist_per_step[H];
 	}
-	if (ray_dir[V] < 0)
+	if (ray->ray_dir[V] < 0)
 	{
-		step_v = -1;
-		side_dist_v = (ray_pos[V] - map_v) * ray_dist_per_step[V];
+		ray->step[V] = -1;
+		ray->side_dist[V] = (ray->ray_start_pos[V] - ray->coords[V]) * ray->ray_dist_per_step[V];
 	}
 	else
 	{
-		step_v = 1;
-		side_dist_v = (map_v + 1.0 - ray_pos[V]) * ray_dist_per_step[V];
+		ray->step[V] = 1;
+		ray->side_dist[V] = (ray->coords[V] + 1.0 - ray->ray_start_pos[V]) * ray->ray_dist_per_step[V];
 	}
+}
 
+// void	display_ray(double	coords[2], double start_coords[2], int color, t_game *game)
+// {
+	// double	step[2];
 
-	int	side;
-	int	hit = 0;
-	// DDA
+	// if (coords[H] > start_coords[H])
+	// 	step[H] = (coords[H] - start_coords[H]) / 100;
+	// else
+	// 	step[H] = (start_coords[H] - coords[H]) / 100;
+	// if (coords[V] > start_coords[V])
+	// 	step[V] = (coords[V] - start_coords[V]) / 100;
+	// else
+	// 	step[V] = (start_coords[V] - coords[V]) / 100;
+	// while (coords[V] > start_coords[V])
+	// {
+	// 	while (coords[H] < start_coords[H])
+	// 	{
+	// 		printf("%'.2lf %'.2lf\n", coords[H], coords[V]);
+	// 		mlx_pixel_put(\
+	// 			game->texture->mlx, \
+	// 			game->texture->window, \
+	// 			coords[V] * SCALE_FACTOR, \
+	// 			coords[H] * SCALE_FACTOR, \
+	// 			color);
+	// 		coords[H] += step[H];
+	// 	}
+	// 	coords[V] -= step[V];
+	// }
+// }
+
+void	get_line_height(t_game *game, double distance, int col, int side);
+
+void	search_for_a_wall(t_ray *ray, t_game *game, int col)
+{
+	int		hit;
+	double	distance;
+
+	hit = 0;
 	while (hit == 0)
 	{
-		// display_square(game, color, map_h, map_v);
-		if (side_dist_h < side_dist_v)
-		{
-			side_dist_h += ray_dist_per_step[H];
-			map_h += step_h;
-			side = 0;
+		if (ray->side_dist[H] < ray->side_dist[V]) {
+			ray->side_dist[H] += ray->ray_dist_per_step[H];
+			ray->coords[H] += ray->step[H];
+			ray->side = 0;
 		}
 		else
 		{
-			side_dist_v += ray_dist_per_step[V];
-			map_v += step_v;
-			side = 1;
+			ray->side_dist[V] += ray->ray_dist_per_step[V];
+			ray->coords[V] += ray->step[V];
+			ray->side = 1;
 		}
-		if (game->map[map_v][map_h] == '1')
+		if (game->map[ray->coords[V]][ray->coords[H]] == '1')
 			hit = 1;
-		for (float i = map_h; i < map_h + 1; i += 0.1)
-		{
-			for (float j = map_v; j < map_v + 1; j += 0.1)
-			{
-				mlx_pixel_put(\
-					game->texture->mlx, \
-					game->texture->window, \
-					i * SCALE_FACTOR, \
-					j * SCALE_FACTOR, \
-					color);
-			}
-		}
 	}
-	if (side == 0)
-		distance = side_dist_h - ray_dist_per_step[H];
+	if (ray->side == 0)
+		distance = ray->side_dist[H] - ray->ray_dist_per_step[H];
 	else
-		distance = side_dist_v - ray_dist_per_step[V];
+		distance = ray->side_dist[V] - ray->ray_dist_per_step[V];
+	get_line_height(game, distance, col, ray->side);
+}
 
-	// for (double j = map_h; (int)j != (int)ray_pos[H]; j += ft_abs(ray_pos[H] - map_h) / 100000000000)
-	// {
-	// 	for (double i = ray_pos[V]; (int)i != (int)map_v; i += ft_abs(ray_pos[V] - map_v) / 100000000000)
-	// 	{
-	// 		mlx_pixel_put(game->texture->mlx, 
-	// 				game->texture->window, 
-	// 				j * SCALE_FACTOR,
-	// 				i * SCALE_FACTOR, 
-	// 				ft_color(255, 255, 255));
-	// 	}
-	// }
-	// printf("%lf\n", distance);
+void	get_line_height(t_game *game, double distance, int col, int side)
+{
+	int	line_height;
+	int	line[2];
+
+	line_height = (int) HEIGHT / distance;
+	line[0] = - line_height / 2 + HEIGHT / 2;
+	if (line[0] < 0)
+		line[0] = 0;
+	line[1] = line_height / 2 + HEIGHT / 2;
+	if (line[1] >= WIDTH)
+		line[1] = HEIGHT - 1;
+	for (int l = line[0]; l < line[1]; l++)
+	{
+		// printf("from %d to %d\n", line[0], line[1]);
+		int color = ft_color(255, 127, 125);
+		if (side == 1)
+			color = color / 2;
+		mlx_pixel_put(game->texture->mlx, game->texture->window, col, l, color);
+	}
 }
 
 void	render(void *param)

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/17 16:47:07 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:13:52 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_player
 {
 	t_2dvector	*position;
 	t_2dvector	*camera;
+	t_2dvector	fov;
 }				t_player;
 
 typedef struct s_game

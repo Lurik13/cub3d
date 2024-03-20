@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/19 12:30:26 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:24:16 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,17 @@ void	display_player_orientation(t_game *game)
 		send_ray(\
 			game, \
 			(double)(column * 2 - WIDTH) / (double)WIDTH, \
-			ft_color(255, 0, 0) \
+			ft_color(255, 0, 0), \
+			column \
 		);
 		column++;
 	}
-	send_ray(game, 0, ft_color(0, 255, 255));
+	send_ray(game, 0, ft_color(0, 255, 255), column);
+	// sleep(1);
+	for (int i = 0; i < HEIGHT; i++)
+		for (int j = 0; j < WIDTH; j++)
+			mlx_pixel_put(game->texture->mlx, game->texture->window, i, j, 0);
+
 }
 
 void	display_map(t_game *game)
