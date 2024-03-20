@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/20 12:26:31 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:45:55 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct	s_ray
 	int	step[2];
 	int	coords[2];
 	int	side;
+	double	distance;
 }		t_ray;
 
 /**
@@ -45,7 +46,7 @@ typedef struct	s_ray
  * @param `start_position` The column of the screen from which the ray
  * should start.
  */
-void	search_for_a_wall(t_ray *ray, t_game *game, int col);
+void	search_for_a_wall(t_ray *ray, t_game *game);
 
 void	display_map(t_game *game);
 
@@ -56,5 +57,6 @@ void	display_square(t_game *game, int colour, int h_start, int v_start);
 void	get_side_dists(t_ray *ray);
 
 void	send_ray(t_game *game, double start_position, int color, int column);
+
 
 #endif
