@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/20 11:56:13 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 05:07:42 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	move(int keycode, t_game *game)
 {
 	double	movement;
 
-	movement = 0.25;
+	movement = 0.125;
 	if (keycode == LEFT_KEY)
 		ft_move(game, 0, -movement);
 	else if (keycode == RIGHT_KEY)

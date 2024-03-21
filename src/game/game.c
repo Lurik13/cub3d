@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/20 10:14:16 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 04:46:02 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_game	*init_game(void)
 	game->player->position->h = 0;
 	game->player->position->v = 0;
 	game->player->camera = ft_calloc(1, sizeof(t_2dvector));
-	game->player->camera->h = 0;
+	game->player->camera->h = -1;
 	game->player->camera->v = 0;
-	game->player->fov = (t_2dvector){.h = 0.66, .v = 0};
+	game->player->fov = (t_2dvector){.h = 0, .v = 0.66};
 	ft_bzero(game->texture->wall, 4 * sizeof(void *));
 	ft_bzero(game->texture->door, 4 * sizeof(void *));
 	return (game);

@@ -6,24 +6,38 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/18 18:27:02 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/21 04:49:58 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	choose_orientation(t_2dvector *camera, char c)
+void	choose_orientation(t_player *player, char c)
 {
-	camera->h = 0;
-	camera->v = 0;
 	if (c == 'N')
-		camera->v = -1;
+	{
+		player->camera->h = -1;
+		player->fov.h = 0;
+		player->fov.v = 0.66;
+	}
 	else if (c == 'S')
-		camera->v = 1;
+	{
+		player->camera->h = -1;
+		player->fov.h = 0;
+		player->fov.v = 0.66;
+	}
 	else if (c == 'E')
-		camera->h = 1;
+	{
+		player->camera->h = -1;
+		player->fov.h = 0;
+		player->fov.v = 0.66;
+	}
 	else
-		camera->h = -1;
+	{
+		player->camera->h = -1;
+		player->fov.h = 0;
+		player->fov.v = 0.66;
+	}
 }
 
 void	check_chars(char **map, t_game *game)
@@ -45,7 +59,7 @@ void	check_chars(char **map, t_game *game)
 			{
 				game->player->position->v = i + 1.25;
 				game->player->position->h = j + 1.25;
-				choose_orientation(game->player->camera, game->map[i][j]);
+				choose_orientation(game->player, game->map[i][j]);
 				number_of_players++;
 			}
 			j++;
