@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/21 08:08:23 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:46:14 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,22 @@ void	choose_orientation(t_player *player, char c)
 {
 	if (c == 'N')
 	{
-		player->camera->h = -1;
-		player->fov.h = 0;
-		player->fov.v = 0.66;
+		player->camera->v = -1;
+		player->fov.h = 0.66;
 	}
 	else if (c == 'S')
 	{
-		player->camera->h = -1;
-		player->fov.h = 0;
-		player->fov.v = 0.66;
+		player->camera->v = 1;
+		player->fov.h = 0.66;
 	}
 	else if (c == 'E')
 	{
-		player->camera->h = -1;
-		player->fov.h = 0;
+		player->camera->h = 1;
 		player->fov.v = 0.66;
 	}
 	else
 	{
 		player->camera->h = -1;
-		player->fov.h = 0;
 		player->fov.v = 0.66;
 	}
 }
@@ -70,8 +66,8 @@ void	check_chars(char **map, t_game *game)
 				exit_error("Invalid char", game);
 			if (is_player(map[i][j]))
 			{
-				game->player->position->v = i + 1.25;
-				game->player->position->h = j + 1.25;
+				game->player->position->v = i + 1.375;
+				game->player->position->h = j + 1.375;
 				choose_orientation(game->player, game->map[i][j]);
 				number_of_players++;
 			}
