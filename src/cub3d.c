@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/18 13:14:37 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 08:00:03 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,8 @@ void	exit_error(char *str, t_game *game)
 	exit(EXIT_FAILURE);
 }
 
-int	main(int argc, char **argv)
+void	check_attrs(int argc, char **argv)
 {
-	int		fd;
-	t_game	*game;
-	void	*mlx;
-	void	*window;
-
 	if (argc != 2)
 	{
 		ft_dprintf(STDERR_FILENO, "Usage: ./cub3d <map.cub>\n");
@@ -44,6 +39,13 @@ int	main(int argc, char **argv)
 		ft_dprintf(STDERR_FILENO, "Wrong file extension.\n");
 		exit(EXIT_FAILURE);
 	}
+}
+
+t_game	*parse(char **argv)
+{
+	int		fd;
+	t_game	*game;
+
 	game = init_game();
 	if (game == NULL)
 	{
@@ -64,6 +66,23 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	parse_map(fd, game);
+	close(fd);
+	return (game);
+}
+
+int	main(int argc, char **argv)
+{
+	void	*mlx;
+	void	*window;
+	t_game	*game;
+
+	check_attrs(argc, argv);
+	game = parse(argv);
+	if (game == NULL)
+	{
+		ft_dprintf(2, "Game initialization failed\n");
+		return (1);
+	}
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
 	game->texture->mlx = mlx;

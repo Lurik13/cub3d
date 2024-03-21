@@ -6,11 +6,24 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/21 04:49:58 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 08:08:23 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static const char	*g_formats[] = {\
+	['.'] = "\x1b[38;2;30;100;0m%c\e[0m", \
+	['0'] = "\x1b[38;2;0;120;120m%c\e[0m", \
+	['1'] = "\x1b[38;2;120;50;0m%c\e[0m", \
+	[' '] = "%c\e[0m", \
+	['n'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
+	['s'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
+	['e'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
+	['w'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
+	['o'] = "\x1b[38;2;0;200;0;1m%c\e[0m", \
+	['c'] = "\x1b[38;2;200;0;0;1m%c\e[0m"
+};
 
 void	choose_orientation(t_player *player, char c)
 {
@@ -126,21 +139,7 @@ void	print_map(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == '.')
-				printf("\x1b[38;2;30;100;0m.\e[0m");
-			else if (map[i][j] == '1')
-				printf("\x1b[38;2;120;50;0m1\e[0m");
-			else if (map[i][j] == '0')
-				printf("\x1b[38;2;0;120;120m0\e[0m");
-			else if (map[i][j] == ' ')
-				printf(" \e[0m");
-			else if (map[i][j] == 'n' || map[i][j] == 's'
-				|| map[i][j] == 'w' || map[i][j] == 'e')
-				printf("\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", map[i][j]);
-			else if (map[i][j] == 'o')
-				printf("\x1b[38;2;0;200;0;1mo\e[0m");
-			else if (map[i][j] == 'c')
-				printf("\x1b[38;2;200;0;0;1mc\e[0m");
+			printf(g_formats[(int)map[i][j]], map[i][j]);
 			j++;
 		}
 		printf("\n");
