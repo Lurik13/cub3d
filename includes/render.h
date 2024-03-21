@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/21 11:08:39 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:49:06 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@
 # include <float.h>
 # include <math.h>
 
-# define WIDTH 1280
-# define HEIGHT 1024
+// # define WIDTH 1280
+// # define HEIGHT 1024
+
+# define WIDTH 1920
+# define HEIGHT 1080
 
 # define H 0
 # define V 1

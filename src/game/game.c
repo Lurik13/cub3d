@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/21 11:28:15 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:36:15 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,14 @@ void	free_game(t_game *game)
 		i++;
 	}
 	free_table(game->map);
-	free(game->texture);
-	free(game->player->position);
-	free(game->player->camera);
-	free(game->player);
-	free(game);
+	if (game->texture)
+		free(game->texture);
+	if (game->player->position)
+		free(game->player->position);
+	if (game->player->camera)
+		free(game->player->camera);
+	if (game->player)
+		free(game->player);
+	if (game)
+		free(game);
 }

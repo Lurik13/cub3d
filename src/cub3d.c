@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/21 08:00:03 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:40:24 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 void	exit_error(char *str, t_game *game)
 {
 	free_game(game);
-	free_table(game->map);
 	printf("\x1b[38;2;150;0;0;1m%s\n\e[0m", str);
 	exit(EXIT_FAILURE);
 }
