@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 06:32:29 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/21 07:35:11 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:52:22 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	search_for_a_wall(t_ray *ray, t_game *game)
 			ray->coords[V] += ray->step[V];
 			ray->side = 1;
 		}
-		if (game->map[ray->coords[V]][ray->coords[H]] == '1')
+		if (ray->coords[V] >= ft_tablen(game->map) || ray->coords[V] >= game->longest_line || \
+				game->map[ray->coords[V]][ray->coords[H]] == '1')
 			hit = 1;
 	}
 	if (ray->side == 0)
@@ -92,13 +93,13 @@ void	get_line_height(t_game *game, int col, t_ray *ray)
 
 	line_height = (int)(HEIGHT / ray->distance);
 	ray->line[0] = (-line_height / 2) + (HEIGHT / 2);
-	if (ray->line[0] <= 400)
-		ray->line[0] = 400;
+	if (ray->line[0] <= 0)
+		ray->line[0] = 0;
 	if (ray->line[0] >= HEIGHT)
 		ray->line[0] = HEIGHT - 1;
 	ray->line[1] = (line_height / 2) + (HEIGHT / 2);
-	if (ray->line[1] <= 400)
-		ray->line[1] = 400;
+	if (ray->line[1] <= 0)
+		ray->line[1] = 0;
 	if (ray->line[1] >= HEIGHT)
 		ray->line[1] = HEIGHT - 1;
 	render_column(ray, game, col);

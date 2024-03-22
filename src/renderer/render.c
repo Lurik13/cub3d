@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/21 11:31:26 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/22 06:56:22 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	render_column(t_ray *ray, t_game *game, int col)
 	int	color;
 	int	l;
 
-	l = 400;
+	l = 0;
 	while (l < ray->line[0])
 	{
 		mlx_pixel_put(game->texture->mlx, game->texture->window, \

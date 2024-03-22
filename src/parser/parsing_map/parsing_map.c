@@ -6,11 +6,12 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/21 11:26:37 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:14:04 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <math.h>
 
 static const char	*g_formats[] = {\
 	['.'] = "\x1b[38;2;30;100;0m%c\e[0m", \
@@ -25,27 +26,35 @@ static const char	*g_formats[] = {\
 	['c'] = "\x1b[38;2;200;0;0;1m%c\e[0m"
 };
 
+#define ROTATION_SPEED 0.1
+static void	ft_rotate(t_player *player, double orientation)
+{
+	t_2dvector	old_fov;
+	t_2dvector	old_camera;
+
+	old_fov.h = player->fov.h;
+	old_fov.v = player->fov.v;
+	old_camera.h = player->camera->h;
+	old_camera.v = player->camera->v;
+	player->camera->h = old_camera.h * cos(orientation * ROTATION_SPEED) - player->camera->v * sin(orientation * ROTATION_SPEED);
+	player->camera->v = old_camera.h * sin(orientation * ROTATION_SPEED) + player->camera->v * cos(orientation * ROTATION_SPEED);
+	player->fov.h = old_fov.h * cos(orientation * ROTATION_SPEED) - player->fov.v * sin(orientation * ROTATION_SPEED);
+	player->fov.v = old_fov.h * sin(orientation * ROTATION_SPEED) + player->fov.v * cos(orientation * ROTATION_SPEED);
+}	
+
 void	choose_orientation(t_player *player, char c)
 {
-	if (c == 'N')
-	{
-		player->camera->v = -1;
-		player->fov.h = 0.66;
-	}
-	else if (c == 'S')
-	{
-		player->camera->v = 1;
-		player->fov.h = 0.66;
-	}
+	player->camera->v = -1;
+	player->fov.h = 0.66;
+	if (c == 'S')
+		ft_rotate(player, 32);
 	else if (c == 'E')
 	{
-		player->camera->h = 1;
-		player->fov.v = 0.66;
+		ft_rotate(player, 16);
 	}
-	else
+	else if (c == 'W')
 	{
-		player->camera->h = -1;
-		player->fov.v = 0.66;
+		ft_rotate(player, 48);
 	}
 }
 

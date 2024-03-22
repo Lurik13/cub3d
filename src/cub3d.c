@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/21 15:40:24 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/22 10:58:21 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	main(int argc, char **argv)
 	game->texture->window = window;
 	if (window == NULL)
 		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
-	init_keybindings(window, game);
+	mlx_mouse_hide(mlx, window);
+	init_keybindings(mlx, window, game);
 	mlx_loop_hook(mlx, (void *)render, (void *[]){mlx, window, (void *)game});
 	mlx_loop(mlx);
 	mlx_destroy_window(mlx, window);

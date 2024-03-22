@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/21 11:08:24 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/22 10:59:57 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define MOVEMENT 0.125
 
 void	move(int keycode, t_game *game);
-void	init_keybindings(void *window, t_game *game);
+void	init_keybindings(void *mlx, void *window, t_game *game);
+void	mouse_rotate(int x, int y, void *param);
 
 #endif
