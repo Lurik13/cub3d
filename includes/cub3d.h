@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/20 10:13:52 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/23 08:32:50 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ enum	e_directions
 typedef struct s_textures
 {
 	void		*mlx;
+	void		*map;
+	void		*game;
 	void		*window;
 	void		*wall[4];
 	void		*door[4];

@@ -6,13 +6,15 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/23 06:04:57 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:11:11 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "render.h"
 #include "libft.h"
 #include "mlx.h"
+#include "mlx_int.h"
 
 t_game	*init_game(void)
 {

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/21 15:49:06 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:23:57 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # define H 0
 # define V 1
 
-# define SCALE_FACTOR 24
-# define PLAYER_SIZE 6
+# define SCALE_FACTOR 12
+# define PLAYER_SIZE 3
 
 typedef struct	s_ray
 {
@@ -43,6 +43,17 @@ typedef struct	s_ray
 	int	line[2];
 	double	distance;
 }		t_ray;
+
+typedef struct	s_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 /* ************************************************************************** */
 /*	DDA																		  */
@@ -90,6 +101,8 @@ void	get_line_height(t_game *game, int col, t_ray *ray);
 /* ************************************************************************** */
 /*	DDA																		  */
 /* ************************************************************************** */
+
+void	display_game(t_game *game);
 
 /**
  * @brief render the map

@@ -6,16 +6,16 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/22 09:03:53 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/23 10:23:44 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 
 static const int	g_colors[256] = {\
-	['1'] = 0b00000000011110000001111000000000, \
-	['0'] = 0b00000000000000000111100001111000, \
-	['.'] = 0b00000000000111100110010000000000 //, \
+	['1'] = 0b00000001011110000001111000000000, \
+	['0'] = 0b00000001000000000111100001111000, \
+	['.'] = 0b00000001000111100110010000000000 //, \
 	// ['c'] = 0b00000001111111111111111111111111
 };
 
@@ -30,9 +30,8 @@ void	display_square(t_game *game, int colour, int h_start, int v_start)
 		v = 0;
 		while (v < SCALE_FACTOR)
 		{
-			mlx_pixel_put(
-				game->texture->mlx, \
-				game->texture->window, \
+			my_mlx_pixel_put(
+				game->texture->map, \
 				h_start * SCALE_FACTOR + h, \
 				v_start * SCALE_FACTOR + v, \
 				colour);
