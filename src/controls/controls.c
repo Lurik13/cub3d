@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/23 10:14:43 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/23 11:34:29 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ void	ft_move_forward_backward(t_game *game, double move_h)
 	player = game->player;
 	pos_h = (player->position->h + player->camera->h * move_h);
 	pos_v = (player->position->v + player->camera->v * move_h);
+	printf("%d, %d, %c\n", (int)(pos_v + player->camera->v * move_h),
+			(int)(pos_h + (player->camera->h * move_h)), 
+			game->map[(int)(pos_v + player->camera->v * move_h)]
+			[(int)(pos_h + (player->camera->h * move_h))]);
 	if (game->map[(int)(pos_v + player->camera->v * move_h)]
 			[(int)(pos_h + (player->camera->h * move_h))] == '1')
 		return ;
