@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 06:32:29 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/22 11:52:22 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/23 05:50:53 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	search_for_a_wall(t_ray *ray, t_game *game)
 			ray->coords[V] += ray->step[V];
 			ray->side = 1;
 		}
-		if (ray->coords[V] >= ft_tablen(game->map) || ray->coords[V] >= game->longest_line || \
-				game->map[ray->coords[V]][ray->coords[H]] == '1')
+		if (ray->coords[V] >= ft_tablen(game->map) || ray->coords[V] >= game->\
+			longest_line || game->map[ray->coords[V]][ray->coords[H]] == '1')
 			hit = 1;
 	}
 	if (ray->side == 0)
