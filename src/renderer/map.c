@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/23 10:23:44 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/23 11:18:24 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ void	display_player(t_game *game)
 		v = 0;
 		while (v < PLAYER_SIZE)
 		{
-			mlx_pixel_put(\
-					game->texture->mlx, \
-					game->texture->window, \
-					game->player->position->h * SCALE_FACTOR + h, \
-					game->player->position->v * SCALE_FACTOR + v, \
-					ft_color(230, 200, 0));
+			my_mlx_pixel_put(\
+				game->texture->map, \
+				game->player->position->h * SCALE_FACTOR + h, \
+				game->player->position->v * SCALE_FACTOR + v, \
+				ft_color(230, 200, 0));
 			v++;
 		}
 		h++;
