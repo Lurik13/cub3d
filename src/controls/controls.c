@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 09:09:20 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/24 11:57:55 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,9 @@
 #include "render.h"
 #include "vector/vector.h"
 
-void	ft_move_forward_backward(t_game *game, double move_h)
+void	ft_move_player_in_struct(t_game *game, t_player *player, \
+	double pos_v, double pos_h)
 {
-	t_player	*player;
-	double		pos_v;
-	double		pos_h;
-
-	player = game->player;
-	pos_h = (player->position->h + player->camera->h * move_h);
-	pos_v = (player->position->v + player->camera->v * move_h);
-	if (game->map[(int)(pos_v + player->camera->v * move_h + 0.1)]
-			[(int)(pos_h + (player->camera->h * move_h + 0.1))] == '1')
-		return ;
 	if (ft_strcontains(" nsewo", game->map[(int)pos_v][(int)pos_h]))
 	{
 		game->map[(int)player->position->v][(int)player->position->h] = ' ';
@@ -36,25 +27,30 @@ void	ft_move_forward_backward(t_game *game, double move_h)
 	}
 }
 
-void	ft_move_sides(t_game *game, double move_h)
+void	ft_move(t_game *game, double move_h, int side)
 {
 	t_player	*player;
 	double		pos_v;
 	double		pos_h;
 
 	player = game->player;
-	pos_h = player->position->h - (player->camera->v * move_h);
-	pos_v = player->position->v + (player->camera->h * move_h);
-	if (game->map[(int)(pos_v + player->camera->h * move_h)][(int)(pos_h
-			+ player->camera->v * move_h)] == '1')
-		return ;
-	if (ft_strcontains(" nsewo", game->map[(int)pos_v][(int)pos_h]))
+	if (side)
 	{
-		game->map[(int)player->position->v][(int)player->position->h] = ' ';
-		game->player->position->v = pos_v;
-		game->player->position->h = pos_h;
-		game->map[(int)player->position->v][(int)player->position->h] = 'n';
+		pos_h = player->position->h - player->camera->v * move_h;
+		pos_v = player->position->v + player->camera->h * move_h;
 	}
+	else
+	{
+		pos_h = player->position->h + player->camera->h * move_h;
+		pos_v = player->position->v + player->camera->v * move_h;
+	}
+	if (move_h < 0)
+		move_h -= 0.01;
+	else
+		move_h += 0.01;
+	if (game->map[(int)(pos_v + move_h)][(int)(pos_h + move_h)] == '1')
+		return ;
+	ft_move_player_in_struct(game, player, pos_v, pos_h);
 }
 
 void	ft_rotate(t_game *game, double orientation)
@@ -105,21 +101,19 @@ void	mouse_rotate(int x, int y, void *param)
 
 void	move(int keycode, void *data)
 {
-	double	movement;
 	t_game	*game;
 	int		*redraw;
 
 	game = ((t_game **)data)[0];
 	redraw = ((int **)data)[3];
-	movement = MOVEMENT;
 	if (keycode == LEFT_KEY)
-		ft_move_sides(game, -movement);
+		ft_move(game, -MOVEMENT, 1);
 	else if (keycode == RIGHT_KEY)
-		ft_move_sides(game, movement);
+		ft_move(game, MOVEMENT, 1);
 	else if (keycode == DOWN_KEY)
-		ft_move_forward_backward(game, -movement);
+		ft_move(game, -MOVEMENT, 0);
 	else if (keycode == UP_KEY)
-		ft_move_forward_backward(game, movement);
+		ft_move(game, MOVEMENT, 0);
 	else if (keycode == 65361)
 		ft_rotate(game, -1);
 	else if (keycode == 65363)
