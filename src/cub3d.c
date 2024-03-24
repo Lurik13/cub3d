@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/23 10:17:52 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:23:35 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,18 @@ void	free_mlx(void *mlx, void *window)
 	free(mlx);
 }
 
+void	*load_texture(void *mlx, char *path)
+{
+	int		index;
+	void	*texture;
+
+	texture = mlx_xpm_file_to_image(mlx, path, &index, &index);
+	if (texture == NULL)
+		ft_dprintf(STDERR_FILENO, "Cannot load the texture %s\n", path);
+	free(path);
+	return (texture);
+}
+
 int	main(int argc, char **argv)
 {
 	void	*mlx;
@@ -115,6 +127,10 @@ int	main(int argc, char **argv)
 	game->texture->window = window;
 	if (window == NULL)
 		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
+	for (int i = 0; i < 4; i++)
+	{
+		game->texture->wall[i] = load_texture(mlx, game->texture->wall[i]);
+	}
 	init_keybindings(mlx, window, (void *[]){game, mlx, window, &redraw});
 	game->texture->game = mlx_new_image(mlx, WIDTH, HEIGHT);
 	game->texture->map = mlx_new_image(mlx, (game->longest_line + 1) * SCALE_FACTOR, (ft_tablen(game->map)) * SCALE_FACTOR);

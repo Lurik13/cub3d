@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 08:35:08 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:46:06 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,31 +113,35 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 	int		text_coords[2];
 	double	wall[2];
 
-	(void) game;
-	(void) col;
 	if (ray->side == 0)
 		wall[H] = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
 	else
 		wall[H] = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
 	wall[H] -= (int) wall[H];
 	text_coords[H] = (int)(wall[H] * (double)TEXTURE_WIDTH);
-	if (ray->side == 0 && ray->ray_dir > 0)
+	if (ray->side == 0 && ray->ray_dir[H] > 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
-	if (ray->side == 1 && ray->ray_dir < 0)
+	if (ray->side == 1 && ray->ray_dir[V] < 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
 
 	int		h;
 	double	step;
 	double	text_pos;
+	double	line_height;
 
-	step = (double)TEXTURE_HEIGHT / (HEIGHT / (int)ray->distance);
-	text_pos = (ray->line[0] - HEIGHT / 2 + ((int)(HEIGHT / ray->distance) / 2)) * step;
+	line_height = HEIGHT / ray->distance;
+	step = 1.0 * (double)TEXTURE_HEIGHT / line_height;
+	text_pos = (ray->line[0] - HEIGHT / 2 + line_height / 2) * step;
 	h = ray->line[0];
+	printf("from %d to %d\n", ray->line[0], ray->line[1]);
 	while (h < ray->line[1])
 	{
-		text_coords[V] = (int)text_pos &	(TEXTURE_HEIGHT - 1);
+		text_coords[V] = (int)text_pos & (TEXTURE_HEIGHT - 1);
 		text_pos += step;
-		get_pixel_color(game->texture->wall[0], h, col);
+		int color = get_pixel_color(game->texture->wall[0], h, col);
+		printf("color : %d in %d %d\n", color, text_coords[H], text_coords[V]);
+		my_mlx_pixel_put(game->texture->game, text_coords[H], text_coords[V], color);
 		h++;
 	}
+	printf("Rendered !\n");
 }

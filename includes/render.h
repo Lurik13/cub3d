@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 08:09:09 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:22:28 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define SCALE_FACTOR 12
 # define PLAYER_SIZE 3
 
-# define TEXTURE_WIDTH 512
-# define TEXTURE_HEIGHT 512
+# define TEXTURE_WIDTH 32
+# define TEXTURE_HEIGHT 32
 
 typedef struct	s_ray
 {
@@ -134,6 +134,7 @@ void	send_ray(t_game *game, double start_position, int color, int column);
  * @param `col` The screen column.
  */
 void	render_column(t_ray *ray, t_game *game, int col);
+void	render_textured_column(t_ray *ray, t_game *game, int col);
 
 void	display_ray(t_ray ray, int color, t_game *game);
 

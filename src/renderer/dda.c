@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 06:32:29 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/23 05:50:53 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:17:02 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ void	get_line_height(t_game *game, int col, t_ray *ray)
 		ray->line[1] = 0;
 	if (ray->line[1] >= HEIGHT)
 		ray->line[1] = HEIGHT - 1;
-	render_column(ray, game, col);
+	render_textured_column(ray, game, col);
 }
