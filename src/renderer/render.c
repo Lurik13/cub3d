@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/23 10:27:56 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/24 08:35:08 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void	render_column(t_ray *ray, t_game *game, int col)
 	while (l < ray->line[0])
 	{
 		if (col > 0 && l > 0 && col < WIDTH && l < HEIGHT)
-			my_mlx_pixel_put(game->texture->game, col, l, ft_color(42, 42, 420
-					% 255));
+			my_mlx_pixel_put(game->texture->game, col, l, game->texture->ceiling);
 		l++;
 	}
 	while (l < ray->line[1])
@@ -92,8 +91,53 @@ void	render_column(t_ray *ray, t_game *game, int col)
 	}
 	while (l < HEIGHT)
 	{
-		my_mlx_pixel_put(game->texture->game, col, l, ft_color(420 % 255, 42,
-				42));
+		my_mlx_pixel_put(game->texture->game, col, l, game->texture->floor);
 		l++;
+	}
+}
+
+int	get_pixel_color(void *data, int h, int v)
+{
+	t_data	img_data;
+
+	img_data.img = data;
+	img_data.addr = mlx_get_data_addr(data, &img_data.bits_per_pixel,
+			&img_data.line_length, &img_data.endian);
+	return (*(int *)(img_data.addr \
+			+ (4 * TEXTURE_WIDTH * v) \
+			+ (4 * h)));
+}
+
+void	render_textured_column(t_ray *ray, t_game *game, int col)
+{
+	int		text_coords[2];
+	double	wall[2];
+
+	(void) game;
+	(void) col;
+	if (ray->side == 0)
+		wall[H] = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
+	else
+		wall[H] = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
+	wall[H] -= (int) wall[H];
+	text_coords[H] = (int)(wall[H] * (double)TEXTURE_WIDTH);
+	if (ray->side == 0 && ray->ray_dir > 0)
+		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
+	if (ray->side == 1 && ray->ray_dir < 0)
+		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
+
+	int		h;
+	double	step;
+	double	text_pos;
+
+	step = (double)TEXTURE_HEIGHT / (HEIGHT / (int)ray->distance);
+	text_pos = (ray->line[0] - HEIGHT / 2 + ((int)(HEIGHT / ray->distance) / 2)) * step;
+	h = ray->line[0];
+	while (h < ray->line[1])
+	{
+		text_coords[V] = (int)text_pos &	(TEXTURE_HEIGHT - 1);
+		text_pos += step;
+		get_pixel_color(game->texture->wall[0], h, col);
+		h++;
 	}
 }
