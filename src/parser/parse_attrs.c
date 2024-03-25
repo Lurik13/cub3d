@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 13:17:48 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:20:05 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	parse_colors(char *line, t_game **game)
 		r = ft_atoi(line + 2);
 		g = ft_atoi(ft_strchr(line, ',') + 1);
 		b = ft_atoi(ft_strrchr(line, ',') + 1);
-		if (r < 0 || r > 255 || g < 0 || g > 255 | b < 0 || b > 255)
+		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 			return (-1);
 		if (ft_strstartswith(line, "C"))
 			(*game)->texture->ceiling = ft_color(r, g, b);

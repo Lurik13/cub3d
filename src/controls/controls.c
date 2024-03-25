@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 11:57:55 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:21:09 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,10 @@ void	mouse_rotate(int x, int y, void *param)
 {
 	static int	h = 0;
 	t_game		*game;
-	void		*mlx;
-	void		*window;
 	int			*redraw;
 
 	(void)y;
 	game = ((t_game **)param)[0];
-	mlx = ((void **)param)[1];
-	window = ((void **)param)[2];
 	redraw = ((int **)param)[3];
 	if (h == WIDTH - 1)
 		h = WIDTH - 2;
