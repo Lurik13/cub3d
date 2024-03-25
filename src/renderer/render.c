@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 13:46:06 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:38:16 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	send_ray(t_game *game, double start_position, int color, int column)
 	get_ray_dist_per_step(&ray);
 	get_side_dists(&ray);
 	search_for_a_wall(&ray, game);
-	(void)column;
+	(void)column; //why?
 	get_line_height(game, column, &ray);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:33:34 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/25 11:18:45 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:56:58 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_player(char c)
 
 int	is_a_map_char(char c)
 {
-	if (is_player(c) || c == '1' || c == '0' || c == 'O' || c == 'C')
+	if (is_player(c) || c == '1' || c == '0'/* || c == 'O' || c == 'C'*/)
 		return (1);
 	return (0);
 }
