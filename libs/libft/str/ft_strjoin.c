@@ -6,7 +6,7 @@
 /*   By: atu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 07:25:58 by atu               #+#    #+#             */
-/*   Updated: 2024/03/10 08:07:19 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:16:19 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*ft_strjoin(const char *s1, ...)
 	int		size;
 	va_list	args;
 	char	*new;
-	char	*temp;
 	char	*next;
 
 	new = ft_strdup(s1);
@@ -33,7 +32,6 @@ char	*ft_strjoin(const char *s1, ...)
 		if (next == NULL)
 			break ;
 		size = ft_strlen(new) + ft_strlen(next) + 1;
-		temp = new;
 		new = ft_grow(new, ft_strlen(new) + 1, size);
 		if (new == NULL)
 			return (NULL);
