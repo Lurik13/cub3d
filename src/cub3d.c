@@ -6,14 +6,14 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/24 13:23:35 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:50:28 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "controls.h"
 #include "cub3d.h"
 #include "mlx.h"
-#include "mlx_int.h"
+// #include "mlx_int.h"
 #include "printf/ft_printf.h"
 #include "render.h"
 #include "str/ft_str.h"

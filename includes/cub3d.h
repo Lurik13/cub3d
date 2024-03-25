@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/23 08:32:50 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:51:50 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include "libft.h"
+
+# define DOT_MSG "\x1b[38;2;30;100;0m.\e[0m"
+# define ZERO_MSG "\x1b[38;2;0;120;120m0\e[0m"
+# define ONE_MSG "\x1b[38;2;120;50;0m1\e[0m"
+# define SPACE_MSG " "
+# define N_MSG "\x1b[38;2;230;200;0;5m\e[1mn\e[0m"
+# define S_MSG "\x1b[38;2;230;200;0;5m\e[1ms\e[0m"
+# define E_MSG "\x1b[38;2;230;200;0;5m\e[1me\e[0m"
+# define W_MSG "\x1b[38;2;230;200;0;5m\e[1mw\e[0m"
+# define O_MSG "\x1b[38;2;0;200;0;1mo\e[0m"
+# define C_MSG "\x1b[38;2;200;0;0;1mc\e[0m"
+
+#define ROTATION_SPEED 0.1
 
 enum	e_directions
 {

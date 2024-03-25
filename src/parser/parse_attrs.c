@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_attrs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 13:17:48 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:45:28 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	ft_strcount(char c, char *str)
 	count = 0;
 	while (*str)
 	{
-			if (*str == c)
-				count++;
-			str++;
+		if (*str == c)
+			count++;
+		str++;
 	}
 	return (count);
 }
