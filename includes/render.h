@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/24 13:22:28 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:38:12 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define SCALE_FACTOR 12
 # define PLAYER_SIZE 3
 
-# define TEXTURE_WIDTH 32
-# define TEXTURE_HEIGHT 32
+# define TEXTURE_WIDTH 505
+# define TEXTURE_HEIGHT 600
 
 typedef struct	s_ray
 {

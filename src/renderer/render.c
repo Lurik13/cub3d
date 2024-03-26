@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/25 12:23:23 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/26 08:21:19 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,27 +100,13 @@ int	get_pixel_color(void *data, int h, int v)
 	img_data.addr = mlx_get_data_addr(data, &img_data.bits_per_pixel,
 			&img_data.line_length, &img_data.endian);
 	return (*(int *)(img_data.addr \
-			+ (v * TEXTURE_WIDTH * 2) \
-			+ (h * (img_data.bits_per_pixel * 8))));
+			+ (v * TEXTURE_WIDTH) \
+			+ (h * (img_data.bits_per_pixel))));
 }
 
 void	render_textured_column(t_ray *ray, t_game *game, int col)
 {
-	int		text_coords[2];
-	double	wall[2];
 	int		texture_nb;
-
-	if (ray->side == 0)
-		wall[H] = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
-	else
-		wall[H] = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
-	wall[H] -= (int) wall[H];
-	text_coords[H] = (int)(wall[H] * (double)TEXTURE_WIDTH);
-	if (ray->side == 0 && ray->ray_dir[H] > 0)
-		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
-	if (ray->side == 1 && ray->ray_dir[V] < 0)
-		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
-
 	if (ray->side == 1)
 	{
 		if (ray->ray_dir[H] > 0)
@@ -135,23 +121,38 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 		else
 			texture_nb = WEST;
 	}
-	printf("texture nb : %d\n", texture_nb);
-	int		h;
+
+	int		text_coords[2];
+	double	wallh;
+
+	if (ray->side == 0)
+		wallh = ray->coords[V] + ray->distance * ray->ray_dir[V];
+	else
+		wallh = ray->coords[H] + ray->distance * ray->ray_dir[H];
+	wallh -= (int) wallh;
+	text_coords[H] = (int)(wallh * (double)TEXTURE_WIDTH);
+	if (ray->side == 0 && ray->ray_dir[H] > 0)
+		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
+	if (ray->side == 1 && ray->ray_dir[V] < 0)
+		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
+
+	int		v;
 	double	step;
 	double	text_pos;
 
 	step = (double)TEXTURE_HEIGHT / (ray->line[0] - ray->line[1]);
-	h = 0;
-	while (h < ray->line[0])
-		my_mlx_pixel_put(game->texture->game, col, h++, game->texture->ceiling);
-	while (h < ray->line[1])
+	v = 0;
+	while (v < ray->line[0])
+		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
+	while (v < ray->line[1])
 	{
 		text_coords[V] = (int)text_pos & (TEXTURE_HEIGHT - 1);
+		// printf("text_coords : %d, %d\n", text_coords[H], text_coords[V]);
 		int color = get_pixel_color(game->texture->wall[texture_nb], text_coords[H], text_coords[V]);
-		my_mlx_pixel_put(game->texture->game, col, h, color);
+		my_mlx_pixel_put(game->texture->game, col, v, color);
 		text_pos += step;
-		h++;
+		v++;
 	}
-	while (h < HEIGHT)
-		my_mlx_pixel_put(game->texture->game, col, h++, game->texture->floor);
+	while (v < HEIGHT)
+		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->floor);
 }
