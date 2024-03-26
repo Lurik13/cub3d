@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/26 08:21:19 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/26 09:06:11 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	get_pixel_color(void *data, int h, int v)
 	img_data.addr = mlx_get_data_addr(data, &img_data.bits_per_pixel,
 			&img_data.line_length, &img_data.endian);
 	return (*(int *)(img_data.addr \
-			+ (v * TEXTURE_WIDTH) \
-			+ (h * (img_data.bits_per_pixel))));
+			+ (4 * TEXTURE_WIDTH * v) \
+			+ (4 * h)));
 }
 
 void	render_textured_column(t_ray *ray, t_game *game, int col)
@@ -122,7 +122,7 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 			texture_nb = WEST;
 	}
 
-	int		text_coords[2];
+	double	text_coords[2];
 	double	wallh;
 
 	if (ray->side == 0)
@@ -138,19 +138,18 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 
 	int		v;
 	double	step;
-	double	text_pos;
 
-	step = (double)TEXTURE_HEIGHT / (ray->line[0] - ray->line[1]);
 	v = 0;
+	step = (double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1]);
 	while (v < ray->line[0])
 		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
+	text_coords[V] = 0;
 	while (v < ray->line[1])
 	{
-		text_coords[V] = (int)text_pos & (TEXTURE_HEIGHT - 1);
 		// printf("text_coords : %d, %d\n", text_coords[H], text_coords[V]);
-		int color = get_pixel_color(game->texture->wall[texture_nb], text_coords[H], text_coords[V]);
+		int color = get_pixel_color(game->texture->wall[texture_nb], (int)text_coords[H], (int)text_coords[V] & (TEXTURE_WIDTH - 1));
 		my_mlx_pixel_put(game->texture->game, col, v, color);
-		text_pos += step;
+		text_coords[V] += step;
 		v++;
 	}
 	while (v < HEIGHT)
