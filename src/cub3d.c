@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/25 11:50:28 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/26 09:30:20 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ int	main(int argc, char **argv)
 	for (int i = 0; i < 4; i++)
 	{
 		game->texture->wall[i] = load_texture(mlx, game->texture->wall[i]);
+		if (game->texture->wall[i] == NULL)
+		{
+			free_mlx(mlx, window);
+			free_game(game);
+			return (42);
+		}
 	}
 	init_keybindings(mlx, window, (void *[]){game, mlx, window, &redraw});
 	game->texture->game = mlx_new_image(mlx, WIDTH, HEIGHT);
