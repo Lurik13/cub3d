@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/26 09:09:57 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/26 12:00:52 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,9 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 	double	wallh;
 
 	if (ray->side == 0)
-		wallh = ray->coords[V] + ray->distance * ray->ray_dir[V];
+		wallh = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
 	else
-		wallh = ray->coords[H] + ray->distance * ray->ray_dir[H];
+		wallh = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
 	wallh -= (int) wallh;
 	text_coords[H] = (int)(wallh * (double)TEXTURE_WIDTH);
 	if (ray->side == 0 && ray->ray_dir[H] > 0)
