@@ -6,27 +6,13 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/22 09:14:04 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:58:23 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
 
-static const char	*g_formats[] = {\
-	['.'] = "\x1b[38;2;30;100;0m%c\e[0m", \
-	['0'] = "\x1b[38;2;0;120;120m%c\e[0m", \
-	['1'] = "\x1b[38;2;120;50;0m%c\e[0m", \
-	[' '] = "%c\e[0m", \
-	['n'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
-	['s'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
-	['e'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
-	['w'] = "\x1b[38;2;230;200;0;5m\e[1m%c\e[0m", \
-	['o'] = "\x1b[38;2;0;200;0;1m%c\e[0m", \
-	['c'] = "\x1b[38;2;200;0;0;1m%c\e[0m"
-};
-
-#define ROTATION_SPEED 0.1
 static void	ft_rotate(t_player *player, double orientation)
 {
 	t_2dvector	old_fov;
@@ -36,11 +22,15 @@ static void	ft_rotate(t_player *player, double orientation)
 	old_fov.v = player->fov.v;
 	old_camera.h = player->camera->h;
 	old_camera.v = player->camera->v;
-	player->camera->h = old_camera.h * cos(orientation * ROTATION_SPEED) - player->camera->v * sin(orientation * ROTATION_SPEED);
-	player->camera->v = old_camera.h * sin(orientation * ROTATION_SPEED) + player->camera->v * cos(orientation * ROTATION_SPEED);
-	player->fov.h = old_fov.h * cos(orientation * ROTATION_SPEED) - player->fov.v * sin(orientation * ROTATION_SPEED);
-	player->fov.v = old_fov.h * sin(orientation * ROTATION_SPEED) + player->fov.v * cos(orientation * ROTATION_SPEED);
-}	
+	player->camera->h = old_camera.h * cos(orientation * ROTATION_SPEED)
+		- player->camera->v * sin(orientation * ROTATION_SPEED);
+	player->camera->v = old_camera.h * sin(orientation * ROTATION_SPEED)
+		+ player->camera->v * cos(orientation * ROTATION_SPEED);
+	player->fov.h = old_fov.h * cos(orientation * ROTATION_SPEED)
+		- player->fov.v * sin(orientation * ROTATION_SPEED);
+	player->fov.v = old_fov.h * sin(orientation * ROTATION_SPEED)
+		+ player->fov.v * cos(orientation * ROTATION_SPEED);
+}
 
 void	choose_orientation(t_player *player, char c)
 {
@@ -49,40 +39,36 @@ void	choose_orientation(t_player *player, char c)
 	if (c == 'S')
 		ft_rotate(player, 32);
 	else if (c == 'E')
-	{
 		ft_rotate(player, 16);
-	}
 	else if (c == 'W')
-	{
 		ft_rotate(player, 48);
-	}
 }
 
 void	check_chars(char **map, t_game *game)
 {
-	int	i;
-	int	j;
+	int	v;
+	int	h;
 	int	number_of_players;
 
-	i = 0;
+	v = 0;
 	number_of_players = 0;
-	while (map[i])
+	while (map[v])
 	{
-		j = 0;
-		while (map[i][j])
+		h = 0;
+		while (map[v][h])
 		{
-			if (!is_a_map_char(map[i][j]) && !is_space(map[i][j]))
+			if (!is_a_map_char(map[v][h]) && !is_space(map[v][h]))
 				exit_error("Invalid char", game);
-			if (is_player(map[i][j]))
+			if (is_player(map[v][h]))
 			{
-				game->player->position->v = i + 1.375;
-				game->player->position->h = j + 1.375;
-				choose_orientation(game->player, game->map[i][j]);
+				game->player->position->v = v + 1.375;
+				game->player->position->h = h + 1.375;
+				choose_orientation(game->player, game->map[v][h]);
 				number_of_players++;
 			}
-			j++;
+			h++;
 		}
-		i++;
+		v++;
 	}
 	if (number_of_players != 1)
 		exit_error("Wrong number of players", game);
@@ -112,7 +98,8 @@ char	*dup_replacing_by_dots(char *str, int extremity, int len)
 	return (new);
 }
 
-char	**clean_map(char **map, t_game *game) {
+char	**clean_map(char **map, t_game *game)
+{
 	int		i;
 	char	**new;
 	int		len;
@@ -133,6 +120,30 @@ char	**clean_map(char **map, t_game *game) {
 	return (new);
 }
 
+void	print_char(char c)
+{
+	if (c == '.')
+		printf(DOT_MSG);
+	if (c == '0')
+		printf(ZERO_MSG);
+	if (c == '1')
+		printf(ONE_MSG);
+	if (c == ' ')
+		printf(SPACE_MSG);
+	if (c == 'n')
+		printf(N_MSG);
+	if (c == 's')
+		printf(S_MSG);
+	if (c == 'e')
+		printf(E_MSG);
+	if (c == 'w')
+		printf(W_MSG);
+	if (c == 'o')
+		printf(O_MSG);
+	if (c == 'c')
+		printf(C_MSG);
+}
+
 void	print_map(char **map)
 {
 	int	i;
@@ -144,7 +155,7 @@ void	print_map(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			printf(g_formats[(int)map[i][j]], map[i][j]);
+			print_char(map[i][j]);
 			j++;
 		}
 		printf("\n");

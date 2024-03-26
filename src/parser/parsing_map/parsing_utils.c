@@ -6,13 +6,12 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:33:34 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/21 08:08:22 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:56:58 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*(c >= 9 && c <= 13) || */
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\n')
@@ -29,7 +28,7 @@ int	is_player(char c)
 
 int	is_a_map_char(char c)
 {
-	if (is_player(c) || c == '1' || c == '0' || c == 'O' || c == 'C')
+	if (is_player(c) || c == '1' || c == '0'/* || c == 'O' || c == 'C'*/)
 		return (1);
 	return (0);
 }

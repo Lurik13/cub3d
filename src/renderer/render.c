@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/26 09:06:11 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/26 09:09:57 by atu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	send_ray(t_game *game, double start_position, int color, int column)
 	get_ray_dist_per_step(&ray);
 	get_side_dists(&ray);
 	search_for_a_wall(&ray, game);
-	(void)column;
+	(void)column; //why?
 	get_line_height(game, column, &ray);
 }
 
