@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/25 11:21:09 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/27 11:33:53 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,17 @@ void	ft_move(t_game *game, double move_h, int side)
 		pos_v = player->position->v + player->camera->v * move_h;
 	}
 	if (move_h < 0)
-		move_h -= 0.01;
+	{
+		move_h -= 0.00000000001;
+		if (game->map[(int)(pos_v - move_h)][(int)(pos_h - move_h)] == '1')
+			return ;
+	}
 	else
-		move_h += 0.01;
-	if (game->map[(int)(pos_v + move_h)][(int)(pos_h + move_h)] == '1')
-		return ;
+	{
+		move_h += 0.00000000001;
+		if (game->map[(int)(pos_v + move_h)][(int)(pos_h + move_h)] == '1')
+			return ;
+	}
 	ft_move_player_in_struct(game, player, pos_v, pos_h);
 }
 
