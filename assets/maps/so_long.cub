@@ -1,13 +1,13 @@
-SO ./assets/textures/south.xpm
+SO ./assets/textures/Revan.xpm
 
-NO ./assets/textures/north.xpm
+NO ./assets/textures/Plagueis.xpm
 
-WE ./assets/textures/west.xpm
+WE ./assets/textures/Nihilus.xpm
 
-EA ./assets/textures/east.xpm
+EA ./assets/textures/Krayt.xpm
 
-F 220,100,0
-C 225,30,0
+F 170,0,0
+C 170,0,0
 
 11111111111111111111111111111111111
 11001000000011100001000000000011111
