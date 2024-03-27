@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 06:32:29 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 05:09:03 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/27 09:50:37 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	search_for_a_wall(t_ray *ray, t_game *game)
 			ray->coords[H] += ray->step[H];
 			ray->side = 0;
 			if (ray->step[H] > 0)
-				ray->texture_index = WEST;
-			else
 				ray->texture_index = EAST;
+			else
+				ray->texture_index = WEST;
 		}
 		else
 		{
@@ -81,9 +81,9 @@ void	search_for_a_wall(t_ray *ray, t_game *game)
 			ray->coords[V] += ray->step[V];
 			ray->side = 1;
 			if (ray->step[V] > 0)
-				ray->texture_index = NORTH;
-			else
 				ray->texture_index = SOUTH;
+			else
+				ray->texture_index = NORTH;
 		}
 		if (ray->coords[V] >= ft_tablen(game->map) || ray->coords[V] >= game->\
 			longest_line || game->map[ray->coords[V]][ray->coords[H]] == '1')

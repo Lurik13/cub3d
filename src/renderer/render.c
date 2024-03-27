@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 06:31:13 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/27 10:20:05 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,38 +64,40 @@ void	display_game(t_game *game)
 			0, 0), WIDTH);
 }
 
-void	render_column(t_ray *ray, t_game *game, int col)
-{
-	int	color;
-	int	l;
-
-	l = 1;
-	while (l < ray->line[0])
-	{
-		if (col > 0 && l > 0 && col < WIDTH && l < HEIGHT)
-			my_mlx_pixel_put(game->texture->game, col, l,
-				game->texture->ceiling);
-		l++;
-	}
-	while (l < ray->line[1])
-	{
-		color = ft_color(60, 60, 60);
-		if (ray->side == 1)
-			color = ft_color(120, 120, 120);
-		my_mlx_pixel_put(game->texture->game, col, l, color);
-		l++;
-	}
-	while (l < HEIGHT)
-	{
-		my_mlx_pixel_put(game->texture->game, col, l, game->texture->floor);
-		l++;
-	}
-}
+// void	render_column(t_ray *ray, t_game *game, int col)
+	// {
+	// 	int	color;
+	// 	int	l;
+	// 
+	// 	l = 1;
+	// 	while (l < ray->line[0])
+	// 	{
+	// 		if (col > 0 && l > 0 && col < WIDTH && l < HEIGHT)
+	// 			my_mlx_pixel_put(game->texture->game, col, l,
+	// 				game->texture->ceiling);
+	// 		l++;
+	// 	}
+	// 	while (l < ray->line[1])
+	// 	{
+	// 		color = ft_color(60, 60, 60);
+	// 		if (ray->side == 1)
+	// 			color = ft_color(120, 120, 120);
+	// 		my_mlx_pixel_put(game->texture->game, col, l, color);
+	// 		l++;
+	// 	}
+	// 	while (l < HEIGHT)
+	// 	{
+	// 		my_mlx_pixel_put(game->texture->game, col, l, game->texture->floor);
+	// 		l++;
+	// 	}
+// }
 
 int	get_pixel_color(void *data, int h, int v)
 {
 	t_data	img_data;
 
+	v = TEXTURE_HEIGHT - v;
+	h = TEXTURE_WIDTH - h;
 	img_data.img = data;
 	img_data.addr = mlx_get_data_addr(data, &img_data.bits_per_pixel,
 			&img_data.line_length, &img_data.endian);
@@ -126,7 +128,7 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 
 	v = 0;
 	textures_rendering_one(ray, text_coords, &wallh);
-	step = (double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1]);
+	step = (double)((double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1]));
 	while (v < ray->line[0])
 		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
 	text_coords[V] = 0;
