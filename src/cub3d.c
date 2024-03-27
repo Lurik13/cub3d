@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/26 09:30:20 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/27 09:31:36 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ void	*load_texture(void *mlx, char *path)
 
 int	main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*window;
 	t_game	*game;
 	long	redraw;
 
@@ -121,28 +119,26 @@ int	main(int argc, char **argv)
 		ft_dprintf(2, "Game initialization failed\n");
 		return (1);
 	}
-	mlx = mlx_init();
-	window = mlx_new_window(mlx, WIDTH, HEIGHT, "2D2R");
-	game->texture->mlx = mlx;
-	game->texture->window = window;
-	if (window == NULL)
+	game->texture->mlx = mlx_init();
+	game->texture->window = mlx_new_window(game->texture->mlx, WIDTH, HEIGHT, "2D2R");
+	if (game->texture->window == NULL)
 		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
 	for (int i = 0; i < 4; i++)
 	{
-		game->texture->wall[i] = load_texture(mlx, game->texture->wall[i]);
+		game->texture->wall[i] = load_texture(game->texture->mlx, game->texture->wall[i]);
 		if (game->texture->wall[i] == NULL)
 		{
-			free_mlx(mlx, window);
+			free_mlx(game->texture->mlx, game->texture->window);
 			free_game(game);
 			return (42);
 		}
 	}
-	init_keybindings(mlx, window, (void *[]){game, mlx, window, &redraw});
-	game->texture->game = mlx_new_image(mlx, WIDTH, HEIGHT);
-	game->texture->map = mlx_new_image(mlx, (game->longest_line + 1) * SCALE_FACTOR, (ft_tablen(game->map)) * SCALE_FACTOR);
-	mlx_loop_hook(mlx, (void *)render, (void *[]){mlx, window, (void *)game,
+	init_keybindings(game->texture->mlx, game->texture->window, (void *[]){game, NULL, NULL, &redraw});
+	game->texture->game = mlx_new_image(game->texture->mlx, WIDTH, HEIGHT);
+	game->texture->map = mlx_new_image(game->texture->mlx, (game->longest_line + 1) * SCALE_FACTOR, (ft_tablen(game->map)) * SCALE_FACTOR);
+	mlx_loop_hook(game->texture->mlx, (void *)render, (void *[]){game->texture->mlx, game->texture->window, (void *)game,
 		&redraw});
-	mlx_loop(mlx);
-	free_mlx(mlx, window);
+	mlx_loop(game->texture->mlx);
+	free_mlx(game->texture->mlx, game->texture->window);
 	free_game(game);
 }
