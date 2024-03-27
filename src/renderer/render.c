@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 10:20:05 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:22:50 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,14 @@ void	display_game(t_game *game)
 	// 	}
 // }
 
-int	get_pixel_color(void *data, int h, int v)
+int	get_pixel_color(void *data, double h, double v)
 {
 	t_data	img_data;
 
-	v = TEXTURE_HEIGHT - v;
-	h = TEXTURE_WIDTH - h;
 	img_data.img = data;
 	img_data.addr = mlx_get_data_addr(data, &img_data.bits_per_pixel,
 			&img_data.line_length, &img_data.endian);
-	return (*(int *)(img_data.addr + (4 * TEXTURE_WIDTH * v) + (4 * h)));
+	return (*(int *)(img_data.addr + (4 * TEXTURE_WIDTH * (int)v) + (4 * (int)h)));
 }
 
 void	textures_rendering_one(t_ray *ray, double text_coords[2], double *wallh)
@@ -112,9 +110,9 @@ void	textures_rendering_one(t_ray *ray, double text_coords[2], double *wallh)
 		*wallh = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
 	*wallh -= (int)*wallh;
 	text_coords[H] = (int)(*wallh * (double)TEXTURE_WIDTH);
-	if (ray->side == 0 && ray->ray_dir[H] > 0)
+	if (ray->side == 0 && ray->ray_dir[H] < 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
-	if (ray->side == 1 && ray->ray_dir[V] < 0)
+	if (ray->side == 1 && ray->ray_dir[V] > 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
 }
 
@@ -128,14 +126,14 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 
 	v = 0;
 	textures_rendering_one(ray, text_coords, &wallh);
-	step = (double)((double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1]));
+	step = ft_abs((double)((double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1])));
 	while (v < ray->line[0])
 		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
 	text_coords[V] = 0;
 	while (v < ray->line[1])
 	{
 		color = get_pixel_color(game->texture->wall[ray->texture_index],
-				(int)text_coords[H], (int)text_coords[V] & (TEXTURE_WIDTH - 1));
+				text_coords[H], text_coords[V]);
 		my_mlx_pixel_put(game->texture->game, col, v, color);
 		text_coords[V] += step;
 		v++;
