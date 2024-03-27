@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/27 09:31:36 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:57:40 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 void	exit_error(char *str, t_game *game)
 {
 	free_game(game);
-	printf("\x1b[38;2;150;0;0;1m%s\n\e[0m", str);
+	printf("%s%s%s", RED, str, RESET);
 	exit(EXIT_FAILURE);
 }
 
@@ -47,12 +47,12 @@ void	check_attrs(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		ft_dprintf(STDERR_FILENO, "Usage: ./cub3d <map.cub>\n");
+		ft_dprintf(STDERR_FILENO, "%sUsage: ./cub3d <map.cub>%s", RED, RESET);
 		exit(EXIT_FAILURE);
 	}
 	if (!ft_strendswith(argv[1], ".cub"))
 	{
-		ft_dprintf(STDERR_FILENO, "Wrong file extension.\n");
+		ft_dprintf(STDERR_FILENO, "%sWrong file extension.%s", RED, RESET);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -86,12 +86,16 @@ t_game	*parse(char **argv)
 	return (game);
 }
 
-void	free_mlx(void *mlx, void *window)
+void	free_mlx(t_textures *texture)
 {
-	mlx_clear_window(mlx, window);
-	mlx_destroy_window(mlx, window);
-	mlx_destroy_display(mlx);
-	free(mlx);
+		// mlx_destroy_image(texture->mlx, texture->wall[i]);
+	// free_table(texture->wall);
+	mlx_destroy_image(texture->mlx, texture->game);
+	mlx_destroy_image(texture->mlx, texture->map);
+	mlx_clear_window(texture->mlx, texture->window);
+	mlx_destroy_window(texture->mlx, texture->window);
+	mlx_destroy_display(texture->mlx);
+	free(texture->mlx);
 }
 
 void	*load_texture(void *mlx, char *path)
@@ -128,7 +132,8 @@ int	main(int argc, char **argv)
 		game->texture->wall[i] = load_texture(game->texture->mlx, game->texture->wall[i]);
 		if (game->texture->wall[i] == NULL)
 		{
-			free_mlx(game->texture->mlx, game->texture->window);
+			free_mlx(game->texture);
+			// free_mlx(game->texture->mlx, game->texture->window);
 			free_game(game);
 			return (42);
 		}
@@ -139,6 +144,7 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game->texture->mlx, (void *)render, (void *[]){game->texture->mlx, game->texture->window, (void *)game,
 		&redraw});
 	mlx_loop(game->texture->mlx);
-	free_mlx(game->texture->mlx, game->texture->window);
+	free_mlx(game->texture);
+	// free_mlx(game->texture->mlx, game->texture->window);
 	free_game(game);
 }

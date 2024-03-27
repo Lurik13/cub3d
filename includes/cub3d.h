@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/25 11:51:50 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:55:44 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define W_MSG "\x1b[38;2;230;200;0;5m\e[1mw\e[0m"
 # define O_MSG "\x1b[38;2;0;200;0;1mo\e[0m"
 # define C_MSG "\x1b[38;2;200;0;0;1mc\e[0m"
+# define RED "\x1b[38;2;180;0;0;7m"
+# define RESET "\n\e[0m"
 
 #define ROTATION_SPEED 0.1
 

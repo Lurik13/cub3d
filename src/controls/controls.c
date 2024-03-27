@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 11:33:53 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:15:30 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	mouse_rotate(int x, int y, void *param)
 	*redraw = 1;
 }
 
-#define ESCAPE_KEY 65307
-
 void	move(int keycode, void *data)
 {
 	t_game	*game;
@@ -116,9 +114,9 @@ void	move(int keycode, void *data)
 		ft_move(game, -MOVEMENT, 0);
 	else if (keycode == UP_KEY)
 		ft_move(game, MOVEMENT, 0);
-	else if (keycode == 65361)
+	else if (keycode == LEFT_ARROW_KEY)
 		ft_rotate(game, -1);
-	else if (keycode == 65363)
+	else if (keycode == RIGHT_ARROW_KEY)
 		ft_rotate(game, 1);
 	else if (keycode == ESCAPE_KEY)
 		mlx_close(ESCAPE_KEY, game->texture->mlx);
