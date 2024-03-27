@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/26 08:45:21 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/27 05:05:31 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_ray
 	int	side;
 	int	line[2];
 	double	distance;
+	int	texture_index;
 }		t_ray;
 
 typedef struct	s_data

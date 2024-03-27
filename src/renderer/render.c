@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/26 12:00:52 by atu              ###   ########.fr       */
+/*   Updated: 2024/03/27 05:07:16 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	send_ray(t_game *game, double start_position, int color, int column)
 	get_ray_dist_per_step(&ray);
 	get_side_dists(&ray);
 	search_for_a_wall(&ray, game);
-	(void)column; //why?
 	get_line_height(game, column, &ray);
 }
 
@@ -104,50 +103,36 @@ int	get_pixel_color(void *data, int h, int v)
 			+ (4 * h)));
 }
 
-void	render_textured_column(t_ray *ray, t_game *game, int col)
+void	textures_rendering_one(t_ray *ray, double text_coords[2], double *wallh)
 {
-	int		texture_nb;
-	if (ray->side == 1)
-	{
-		if (ray->ray_dir[H] > 0)
-			texture_nb = NORTH;
-		else
-			texture_nb = SOUTH;
-	}
-	else
-	{
-		if (ray->ray_dir[V] > 0)
-			texture_nb = EAST;
-		else
-			texture_nb = WEST;
-	}
-
-	double	text_coords[2];
-	double	wallh;
-
 	if (ray->side == 0)
-		wallh = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
+		*wallh = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
 	else
-		wallh = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
-	wallh -= (int) wallh;
-	text_coords[H] = (int)(wallh * (double)TEXTURE_WIDTH);
+		*wallh = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
+	*wallh -= (int) *wallh;
+	text_coords[H] = (int)(*wallh * (double)TEXTURE_WIDTH);
 	if (ray->side == 0 && ray->ray_dir[H] > 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
 	if (ray->side == 1 && ray->ray_dir[V] < 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
+}
 
+void	render_textured_column(t_ray *ray, t_game *game, int col)
+{
+	double	text_coords[2];
+	double	wallh;
 	int		v;
 	double	step;
 
 	v = 0;
+	textures_rendering_one(ray, text_coords, &wallh);
 	step = (double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1]);
 	while (v < ray->line[0])
 		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
 	text_coords[V] = 0;
 	while (v < ray->line[1])
 	{
-		// printf("text_coords : %d, %d\n", text_coords[H], text_coords[V]);
-		int color = get_pixel_color(game->texture->wall[texture_nb], (int)text_coords[H], (int)text_coords[V] & (TEXTURE_WIDTH - 1));
+		int color = get_pixel_color(game->texture->wall[ray->texture_index], (int)text_coords[H], (int)text_coords[V] & (TEXTURE_WIDTH - 1));
 		my_mlx_pixel_put(game->texture->game, col, v, color);
 		text_coords[V] += step;
 		v++;
