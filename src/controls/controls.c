@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 09:48:17 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:44:15 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,24 @@ void	ft_move_player_in_struct(t_game *game, t_player *player, \
 	}
 }
 
-int	verif_wall(char **map, double move_h, double pos_v, double pos_h)
+int	verif_wall(char **map, double move, double pos_v, double pos_h)
 {
-	if (move_h < 0)
+	if (move < 0)
 	{
-		move_h -= 0.00000000001;
-		if (map[(int)(pos_v - move_h)][(int)(pos_h - move_h)] == '1')
+		move -= 0.00000000001;
+		if (map[(int)(pos_v - move)][(int)(pos_h - move)] == '1')
 			return (EXIT_FAILURE);
 	}
 	else
 	{
-		move_h += 0.00000000001;
-		if (map[(int)(pos_v + move_h)][(int)(pos_h + move_h)] == '1')
+		move += 0.00000000001;
+		if (map[(int)(pos_v + move)][(int)(pos_h + move)] == '1')
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-void	ft_move(t_game *game, double move_h, int side)
+void	ft_move(t_game *game, double move, int side)
 {
 	t_player	*player;
 	double		pos_v;
@@ -53,15 +53,15 @@ void	ft_move(t_game *game, double move_h, int side)
 	player = game->player;
 	if (side)
 	{
-		pos_h = player->position->h - player->camera->v * move_h;
-		pos_v = player->position->v + player->camera->h * move_h;
+		pos_h = player->position->h - player->camera->v * move;
+		pos_v = player->position->v + player->camera->h * move;
 	}
 	else
 	{
-		pos_h = player->position->h + player->camera->h * move_h;
-		pos_v = player->position->v + player->camera->v * move_h;
+		pos_h = player->position->h + player->camera->h * move;
+		pos_v = player->position->v + player->camera->v * move;
 	}
-	if (verif_wall(game->map, move_h, pos_v, pos_h) == EXIT_SUCCESS)
+	if (verif_wall(game->map, move, pos_v, pos_h) == EXIT_SUCCESS)
 		ft_move_player_in_struct(game, player, pos_v, pos_h);
 }
 

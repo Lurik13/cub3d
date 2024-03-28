@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 03:36:11 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:13:55 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,10 @@ int	parse_attrs(int fd, t_game **game)
 	char	*temp;
 	char	*line;
 
-	line = get_next_line(fd);
+	line = "";
 	while (!textures_check((*game)->texture) && line)
 	{
+		line = get_next_line(fd);
 		temp = line;
 		line = ft_strtrim(line, " \t\r\n");
 		free(temp);
@@ -122,9 +123,7 @@ int	parse_attrs(int fd, t_game **game)
 			}
 		}
 		free(line);
-		line = get_next_line(fd);
 	}
-	free(line);
 	if (line == NULL)
 		return (-1);
 	return (0);

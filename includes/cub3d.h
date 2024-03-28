@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 09:55:26 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:58:51 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	print_map(char **map);
 /* ************************************************************************* */
 /* Game																		 */
 /* ************************************************************************* */
-void	free_game(t_game *game);
+void	free_game(t_game *game, int free_textures);
 t_game	*init_game(void);
 void	free_table(char **tab);
 

@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 12:37:40 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:25:36 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	send_ray(t_game *game, double start_position, int color, int column)
 	t_ray	ray;
 
 	(void)color;
-	ray.ray_start_pos[H] = game->player->position->h + (MOVEMENT / 2);
-	ray.ray_start_pos[V] = game->player->position->v + MOVEMENT;
+	ray.ray_start_pos[H] = game->player->position->h;
+	ray.ray_start_pos[V] = game->player->position->v;
 	ray.coords[H] = (int)ray.ray_start_pos[H];
 	ray.coords[V] = (int)ray.ray_start_pos[V];
 	get_ray_direction(&ray, *game->player, start_position);
@@ -53,15 +53,12 @@ void	display_game(t_game *game)
 {
 	int	column;
 
-	send_ray(game, (double)(-WIDTH) / (double)WIDTH, ft_color(255, 0, 0), 1);
 	column = 1;
 	while (column < WIDTH)
 	{
 		send_ray(game, (double)(column * 2 - WIDTH) / (double)WIDTH, 0, column);
 		column++;
 	}
-	send_ray(game, (double)(column * 2 - WIDTH) / (double)WIDTH, ft_color(255,
-			0, 0), WIDTH);
 }
 
 // void	render_column(t_ray *ray, t_game *game, int col)

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/28 10:19:09 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:08:58 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void	exit_error(char *str, t_game *game)
 {
-	free_game(game);
+	free_game(game, 0);
 	printf("%s%s%s", RED, str, RESET);
 	exit(EXIT_FAILURE);
 }
@@ -61,23 +61,22 @@ t_game	*parse(char **argv)
 	int		fd;
 	t_game	*game;
 
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+	{
+		perror(argv[1]);
+		exit(EXIT_FAILURE);
+	}
 	game = init_game();
 	if (game == NULL)
 	{
 		ft_dprintf(2, "Map initialization failed !\n");
 		exit(EXIT_FAILURE);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		perror(argv[1]);
-		free_game(game);
-		exit(EXIT_FAILURE);
-	}
 	if (parse_attrs(fd, &game))
 	{
 		ft_dprintf(2, "Malformed map attributes\n");
-		free_game(game);
+		free_game(game, 0);
 		exit(EXIT_FAILURE);
 	}
 	parse_map(fd, game);
@@ -85,21 +84,13 @@ t_game	*parse(char **argv)
 	return (game);
 }
 
-void	free_mlx(t_textures *texture)
-{
-	mlx_destroy_image(texture->mlx, texture->game);
-	mlx_destroy_image(texture->mlx, texture->map);
-	mlx_clear_window(texture->mlx, texture->window);
-	mlx_destroy_window(texture->mlx, texture->window);
-	mlx_destroy_display(texture->mlx);
-	free(texture->mlx);
-}
-
 int	load_texture(t_game *game)
 {
 	int		index;
+	int		exit_code;
 	char	*path;
 
+	exit_code = 0;
 	for (int i = 0; i < 4; i++)
 	{
 		path = game->texture->wall[i];
@@ -107,12 +98,11 @@ int	load_texture(t_game *game)
 		if (game->texture->wall[i] == NULL)
 		{
 			ft_dprintf(STDERR_FILENO, "Cannot load the texture %s\n", path);
-			free(path);
-			return (42);
+			exit_code = 42;
 		}
 		free(path);
 	}
-	return (0);
+	return (exit_code);
 }
 
 int	main(int argc, char **argv)
@@ -131,9 +121,7 @@ int	main(int argc, char **argv)
 	game->texture->mlx = mlx_init();
 	if (load_texture(game))
 	{
-		mlx_destroy_display(game->texture->mlx);
-		free(game->texture->mlx);
-		free_game(game);
+		free_game(game, 1);
 		return (1);
 	}
 	game->texture->window = mlx_new_window(game->texture->mlx, WIDTH, HEIGHT, "2D2R");
@@ -145,5 +133,5 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game->texture->mlx, (void *)render, (void *[]){game->texture->mlx, game->texture->window, (void *)game,
 		&redraw});
 	mlx_loop(game->texture->mlx);
-	free_game(game);
+	free_game(game, 1);
 }
