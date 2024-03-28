@@ -1,3 +1,14 @@
-test
-akl;jrdghjkadfjkl
+
 NO	./assets/nord.xpm
+SO ./assets/textures/south.xpm
+EA ./assets/textures/east.xpm
+WE ./assets/textures/west.xpm
+
+F 0,0,0
+C 0,0,0
+
+111111111111111111111
+100000000000000000001
+100000000000000000001
+1111110S0001111111111
+111111111111111111111

@@ -6,14 +6,13 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/27 15:57:40 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 07:59:08 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "controls.h"
 #include "cub3d.h"
 #include "mlx.h"
-// #include "mlx_int.h"
 #include "printf/ft_printf.h"
 #include "render.h"
 #include "str/ft_str.h"
@@ -43,7 +42,7 @@ void	exit_error(char *str, t_game *game)
 	exit(EXIT_FAILURE);
 }
 
-void	check_attrs(int argc, char **argv)
+void	check_args(int argc, char **argv)
 {
 	if (argc != 2)
 	{
@@ -88,8 +87,6 @@ t_game	*parse(char **argv)
 
 void	free_mlx(t_textures *texture)
 {
-		// mlx_destroy_image(texture->mlx, texture->wall[i]);
-	// free_table(texture->wall);
 	mlx_destroy_image(texture->mlx, texture->game);
 	mlx_destroy_image(texture->mlx, texture->map);
 	mlx_clear_window(texture->mlx, texture->window);
@@ -98,16 +95,24 @@ void	free_mlx(t_textures *texture)
 	free(texture->mlx);
 }
 
-void	*load_texture(void *mlx, char *path)
+int	load_texture(t_game *game)
 {
 	int		index;
-	void	*texture;
+	char	*path;
 
-	texture = mlx_xpm_file_to_image(mlx, path, &index, &index);
-	if (texture == NULL)
-		ft_dprintf(STDERR_FILENO, "Cannot load the texture %s\n", path);
-	free(path);
-	return (texture);
+	for (int i = 0; i < 4; i++)
+	{
+		path = game->texture->wall[i];
+		game->texture->wall[i] = mlx_xpm_file_to_image(game->texture->mlx, path, &index, &index);
+		if (game->texture->wall[i] == NULL)
+		{
+			ft_dprintf(STDERR_FILENO, "Cannot load the texture %s\n", path);
+			free(path);
+			return (42);
+		}
+		free(path);
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -116,7 +121,7 @@ int	main(int argc, char **argv)
 	long	redraw;
 
 	redraw = 1;
-	check_attrs(argc, argv);
+	check_args(argc, argv);
 	game = parse(argv);
 	if (game == NULL)
 	{
@@ -124,27 +129,21 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	game->texture->mlx = mlx_init();
+	if (load_texture(game))
+	{
+		mlx_destroy_display(game->texture->mlx);
+		free(game->texture->mlx);
+		free_game(game);
+		return (1);
+	}
 	game->texture->window = mlx_new_window(game->texture->mlx, WIDTH, HEIGHT, "2D2R");
 	if (game->texture->window == NULL)
 		return (exit_error("Couldn't create the window\n", game), EXIT_FAILURE);
-	for (int i = 0; i < 4; i++)
-	{
-		game->texture->wall[i] = load_texture(game->texture->mlx, game->texture->wall[i]);
-		if (game->texture->wall[i] == NULL)
-		{
-			free_mlx(game->texture);
-			// free_mlx(game->texture->mlx, game->texture->window);
-			free_game(game);
-			return (42);
-		}
-	}
 	init_keybindings(game->texture->mlx, game->texture->window, (void *[]){game, NULL, NULL, &redraw});
 	game->texture->game = mlx_new_image(game->texture->mlx, WIDTH, HEIGHT);
 	game->texture->map = mlx_new_image(game->texture->mlx, (game->longest_line + 1) * SCALE_FACTOR, (ft_tablen(game->map)) * SCALE_FACTOR);
 	mlx_loop_hook(game->texture->mlx, (void *)render, (void *[]){game->texture->mlx, game->texture->window, (void *)game,
 		&redraw});
 	mlx_loop(game->texture->mlx);
-	free_mlx(game->texture);
-	// free_mlx(game->texture->mlx, game->texture->window);
 	free_game(game);
 }

@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/25 11:50:44 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 08:01:03 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "libft.h"
 #include "mlx.h"
 // #include "mlx_int.h"
+
+void	free_mlx(t_textures *textures);
 
 t_game	*init_game(void)
 {
@@ -40,13 +42,15 @@ t_game	*init_game(void)
 
 void	free_game(t_game *game)
 {
-	int	i;
+	int		i;
+	void	*texture;
 
+	texture = game->texture;
 	i = 0;
 	while (i < 4)
 	{
 		if (game->texture->wall[i])
-			free(game->texture->wall[i]);
+			mlx_destroy_image(game->texture->mlx, game->texture->wall[i]);
 		i++;
 	}
 	free_table(game->map);
@@ -56,6 +60,7 @@ void	free_game(t_game *game)
 		free(game->player->camera);
 	if (game->player)
 		free(game->player);
+	free_mlx(texture);
 	if (game->texture)
 		free(game->texture);
 	if (game)
