@@ -6,43 +6,11 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/27 15:45:59 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 09:54:35 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <math.h>
-
-static void	ft_rotate(t_player *player, double orientation)
-{
-	t_2dvector	old_fov;
-	t_2dvector	old_camera;
-
-	old_fov.h = player->fov.h;
-	old_fov.v = player->fov.v;
-	old_camera.h = player->camera->h;
-	old_camera.v = player->camera->v;
-	player->camera->h = old_camera.h * cos(orientation * ROTATION_SPEED)
-		- player->camera->v * sin(orientation * ROTATION_SPEED);
-	player->camera->v = old_camera.h * sin(orientation * ROTATION_SPEED)
-		+ player->camera->v * cos(orientation * ROTATION_SPEED);
-	player->fov.h = old_fov.h * cos(orientation * ROTATION_SPEED)
-		- player->fov.v * sin(orientation * ROTATION_SPEED);
-	player->fov.v = old_fov.h * sin(orientation * ROTATION_SPEED)
-		+ player->fov.v * cos(orientation * ROTATION_SPEED);
-}
-
-void	choose_orientation(t_player *player, char c)
-{
-	player->camera->v = -1;
-	player->fov.h = 0.66;
-	if (c == 'S')
-		ft_rotate(player, 32);
-	else if (c == 'E')
-		ft_rotate(player, 16);
-	else if (c == 'W')
-		ft_rotate(player, 48);
-}
 
 void	check_chars(char **map, t_game *game)
 {
@@ -118,49 +86,6 @@ char	**clean_map(char **map, t_game *game)
 	new[i] = dup_replacing_by_dots(map[i - 2], 1, game->longest_line);
 	free_table(map);
 	return (new);
-}
-
-void	print_char(char c)
-{
-	if (c == '.')
-		printf(DOT_MSG);
-	if (c == '0')
-		printf(ZERO_MSG);
-	if (c == '1')
-		printf(ONE_MSG);
-	if (c == ' ')
-		printf(SPACE_MSG);
-	if (c == 'n')
-		printf(N_MSG);
-	if (c == 's')
-		printf(S_MSG);
-	if (c == 'e')
-		printf(E_MSG);
-	if (c == 'w')
-		printf(W_MSG);
-	if (c == 'o')
-		printf(O_MSG);
-	if (c == 'c')
-		printf(C_MSG);
-}
-
-void	print_map(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			print_char(map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
 }
 
 void	parse_map(int fd, t_game *game)
