@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 11:25:36 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:17:14 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "cub3d.h"
 #include "render.h"
 #include "vector/vector.h"
+#include <math.h>
 
 void	render(void *param)
 {
@@ -53,41 +54,13 @@ void	display_game(t_game *game)
 {
 	int	column;
 
-	column = 1;
+	column = 0;
 	while (column < WIDTH)
 	{
 		send_ray(game, (double)(column * 2 - WIDTH) / (double)WIDTH, 0, column);
 		column++;
 	}
 }
-
-// void	render_column(t_ray *ray, t_game *game, int col)
-	// {
-	// 	int	color;
-	// 	int	l;
-	// 
-	// 	l = 1;
-	// 	while (l < ray->line[0])
-	// 	{
-	// 		if (col > 0 && l > 0 && col < WIDTH && l < HEIGHT)
-	// 			my_mlx_pixel_put(game->texture->game, col, l,
-	// 				game->texture->ceiling);
-	// 		l++;
-	// 	}
-	// 	while (l < ray->line[1])
-	// 	{
-	// 		color = ft_color(60, 60, 60);
-	// 		if (ray->side == 1)
-	// 			color = ft_color(120, 120, 120);
-	// 		my_mlx_pixel_put(game->texture->game, col, l, color);
-	// 		l++;
-	// 	}
-	// 	while (l < HEIGHT)
-	// 	{
-	// 		my_mlx_pixel_put(game->texture->game, col, l, game->texture->floor);
-	// 		l++;
-	// 	}
-// }
 
 int	get_pixel_color(void *data, double h, double v)
 {
@@ -105,7 +78,7 @@ void	textures_rendering_one(t_ray *ray, double text_coords[2], double *wallh)
 		*wallh = ray->ray_start_pos[V] + ray->distance * ray->ray_dir[V];
 	else
 		*wallh = ray->ray_start_pos[H] + ray->distance * ray->ray_dir[H];
-	*wallh -= (int)*wallh;
+	*wallh = fmod(*wallh, 1.0);
 	text_coords[H] = (int)(*wallh * (double)TEXTURE_WIDTH);
 	if (ray->side == 0 && ray->ray_dir[H] < 0)
 		text_coords[H] = TEXTURE_WIDTH - text_coords[H] - 1;
@@ -122,16 +95,21 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 	int		color;
 
 	v = 0;
+	if (ray->line[0] < 0)
+		v = ray->line[0];
 	textures_rendering_one(ray, text_coords, &wallh);
-	step = ft_abs((double)((double)TEXTURE_HEIGHT / (double)(ray->line[0] - ray->line[1])));
+	step = (double)TEXTURE_HEIGHT / (ray->line[1] - ray->line[0]);
 	while (v < ray->line[0])
 		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
 	text_coords[V] = 0;
 	while (v < ray->line[1])
 	{
-		color = get_pixel_color(game->texture->wall[ray->texture_index],
-				text_coords[H], text_coords[V]);
-		my_mlx_pixel_put(game->texture->game, col, v, color);
+		if (v >= 0)
+		{
+			color = get_pixel_color(game->texture->wall[ray->texture_index],
+					text_coords[H], text_coords[V]);
+			my_mlx_pixel_put(game->texture->game, col, v, color);
+		}
 		text_coords[V] += step;
 		v++;
 	}
