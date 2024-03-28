@@ -6,7 +6,7 @@
 #    By: lribette <lribette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/21 21:38:16 by atu               #+#    #+#              #
-#    Updated: 2024/03/21 06:43:56 by aboyreau         ###   ########.fr        #
+#    Updated: 2024/03/28 09:59:21 by lribette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ LDLIBS += -lft -lmlx -lXext -lX11 -lm -lz
 LDFLAGS += -Llibs/libft -Llibs/minilibx-linux
 
 SRC = cub3d \
-	  parser/parsing_map/check_recursive parser/parsing_map/parsing_map parser/parsing_map/parsing_utils \
+	  parser/parsing_map/beginning_orientation \
+	  parser/parsing_map/check_recursive parser/parsing_map/parsing_map \
+	  parser/parsing_map/parsing_utils parser/parsing_map/print_map \
 	  parser/parse_attrs \
 	  game/game \
 	  renderer/render renderer/map renderer/dda \

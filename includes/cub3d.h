@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 15:55:44 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 09:55:26 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include "libft.h"
+# include <math.h>
 
 # define DOT_MSG "\x1b[38;2;30;100;0m.\e[0m"
 # define ZERO_MSG "\x1b[38;2;0;120;120m0\e[0m"
@@ -92,6 +93,9 @@ int		is_space(char c);
 int		is_player(char c);
 int		is_a_map_char(char c);
 int		is_closed(t_game *game, int y, int x);
+
+void	choose_orientation(t_player *player, char c);
+void	print_map(char **map);
 
 /* ************************************************************************* */
 /* Game																		 */

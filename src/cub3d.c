@@ -6,14 +6,13 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:11:18 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/27 15:57:40 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:01:22 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "controls.h"
 #include "cub3d.h"
 #include "mlx.h"
-// #include "mlx_int.h"
 #include "printf/ft_printf.h"
 #include "render.h"
 #include "str/ft_str.h"
@@ -88,8 +87,6 @@ t_game	*parse(char **argv)
 
 void	free_mlx(t_textures *texture)
 {
-		// mlx_destroy_image(texture->mlx, texture->wall[i]);
-	// free_table(texture->wall);
 	mlx_destroy_image(texture->mlx, texture->game);
 	mlx_destroy_image(texture->mlx, texture->map);
 	mlx_clear_window(texture->mlx, texture->window);

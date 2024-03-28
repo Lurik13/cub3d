@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/25 11:50:44 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:04:46 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "render.h"
 #include "libft.h"
 #include "mlx.h"
-// #include "mlx_int.h"
 
 t_game	*init_game(void)
 {
