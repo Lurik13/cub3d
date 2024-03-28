@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 10:58:51 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:45:25 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define RED "\x1b[38;2;180;0;0;7m"
 # define RESET "\n\e[0m"
 
-#define ROTATION_SPEED 0.1
+# define ROTATION_SPEED 0.1
 
 enum	e_directions
 {
@@ -82,7 +82,7 @@ int		ft_tablen(char **tab);
 /* ************************************************************************* */
 /* parser.c																	 */
 /* ************************************************************************* */
-int	parse_attrs(int fd, t_game **game);
+int		parse_attrs(int fd, t_game **game);
 void	parse_map(int fd, t_game *game);
 
 /* ************************************************************************* */

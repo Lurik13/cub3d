@@ -6,21 +6,44 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:37 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/28 09:54:35 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:43:39 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	copy_map(int fd, t_game *game, char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line && !ft_strcmp(line, "\n"))
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	while (line)
+	{
+		if ((int)ft_strlen(line) > game->longest_line)
+			game->longest_line = ft_strlen(line);
+		game->map[i] = line;
+		i++;
+		if (i % 16 == 0)
+		{
+			game->map = ft_grow(game->map, i * sizeof(char *),
+					(i + 15) * sizeof(char *));
+		}
+		line = get_next_line(fd);
+	}
+}
+
 void	check_chars(char **map, t_game *game)
 {
 	int	v;
 	int	h;
-	int	number_of_players;
 
-	v = 0;
-	number_of_players = 0;
-	while (map[v])
+	v = -1;
+	while (map[++v])
 	{
 		h = 0;
 		while (map[v][h])
@@ -32,13 +55,13 @@ void	check_chars(char **map, t_game *game)
 				game->player->position->v = v + 1.375;
 				game->player->position->h = h + 1.375;
 				choose_orientation(game->player, game->map[v][h]);
-				number_of_players++;
 			}
 			h++;
 		}
-		v++;
 	}
-	if (number_of_players != 1)
+	if (v == 0)
+		exit_error("Can't find the map", game);
+	if (game->player->position->v == 0)
 		exit_error("Wrong number of players", game);
 }
 
@@ -91,29 +114,13 @@ char	**clean_map(char **map, t_game *game)
 void	parse_map(int fd, t_game *game)
 {
 	char	*line;
-	int		i;
 
 	line = get_next_line(fd);
 	if (!line || line[0] == '\0')
-		printf("Map missing\n");
+		exit_error("Map missing", game);
 	game->longest_line = ft_strlen(line);
 	game->map = ft_calloc(16, sizeof(char *));
-	if (!game->map)
-		printf("Malloc failed\n");
-	i = 0;
-	while (line)
-	{
-		if ((int)ft_strlen(line) > game->longest_line)
-			game->longest_line = ft_strlen(line);
-		game->map[i] = line;
-		i++;
-		if (i % 16 == 0)
-		{
-			game->map = ft_grow(game->map, i * sizeof(char *),
-					(i + 15) * sizeof(char *));
-		}
-		line = get_next_line(fd);
-	}
+	copy_map(fd, game, line);
 	check_chars(game->map, game);
 	game->map = clean_map(game->map, game);
 	is_closed(game, game->player->position->v, game->player->position->h);

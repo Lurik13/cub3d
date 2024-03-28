@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_attrs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 11:13:55 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:03:31 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	parse_attrs(int fd, t_game **game)
 	while (!textures_check((*game)->texture) && line)
 	{
 		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		temp = line;
 		line = ft_strtrim(line, " \t\r\n");
 		free(temp);
