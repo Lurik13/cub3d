@@ -6,7 +6,7 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 07:42:32 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/03 11:51:54 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:13:51 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,5 +228,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 int		ft_strstartswith(char *str, char *start);
 int		ft_strendswith(char *str, char *end);
+int		ft_strcount(char c, char *str);
 
 #endif

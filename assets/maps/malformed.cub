@@ -5,6 +5,7 @@ EA ./assets/textures/east.xpm
 WE ./assets/textures/west.xpm
 
 C 0,0,0
+C 0,0,0
 F 0,0,0
 
 111111111111111111111

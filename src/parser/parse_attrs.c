@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 17:03:31 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:25:08 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,22 @@
 #include "str/ft_str.h"
 #include <unistd.h>
 
-int	ft_strcount(char c, char *str)
+int	parse_color(char *line, t_game *game, int color)
 {
-	int	count;
-
-	count = 0;
-	while (*str)
+	if (ft_strstartswith(line, "C"))
 	{
-		if (*str == c)
-			count++;
-		str++;
+		if (game->texture->ceiling != -1)
+			return (-1);
+		game->texture->ceiling = color;
 	}
-	return (count);
+	else if (ft_strstartswith(line, "F"))
+	{
+		if (game->texture->floor != -1)
+			return (-1);
+		game->texture->floor = color;
+		return (1);
+	}
+	return (1);
 }
 
 /**
@@ -50,11 +54,7 @@ int	parse_colors(char *line, t_game **game)
 		b = ft_atoi(ft_strrchr(line, ',') + 1);
 		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 			return (-1);
-		if (ft_strstartswith(line, "C"))
-			(*game)->texture->ceiling = ft_color(r, g, b);
-		else
-			(*game)->texture->floor = ft_color(r, g, b);
-		return (1);
+		return (parse_color(line, *game, ft_color(r, g, b)));
 	}
 	return (0);
 }
