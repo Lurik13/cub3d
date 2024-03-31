@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:46 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 11:44:15 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:26:27 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,6 @@ void	ft_move_player_in_struct(t_game *game, t_player *player, \
 		game->player->position->h = pos_h;
 		game->map[(int)player->position->v][(int)player->position->h] = 'n';
 	}
-}
-
-int	verif_wall(char **map, double move, double pos_v, double pos_h)
-{
-	if (move < 0)
-	{
-		move -= 0.00000000001;
-		if (map[(int)(pos_v - move)][(int)(pos_h - move)] == '1')
-			return (EXIT_FAILURE);
-	}
-	else
-	{
-		move += 0.00000000001;
-		if (map[(int)(pos_v + move)][(int)(pos_h + move)] == '1')
-			return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
 }
 
 void	ft_move(t_game *game, double move, int side)

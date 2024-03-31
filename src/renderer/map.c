@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 12:40:02 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:00:03 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ void	display_square(t_game *game, int colour, int h_start, int v_start)
 		v = 0;
 		while (v < SCALE_FACTOR)
 		{
-			my_mlx_pixel_put(
-				game->texture->map, \
-				h_start * SCALE_FACTOR + h, \
-				v_start * SCALE_FACTOR + v, \
-				colour);
+			my_mlx_pixel_put(game->texture->map, h_start * SCALE_FACTOR + h,
+				v_start * SCALE_FACTOR + v, colour);
 			v++;
 		}
 		h++;
@@ -45,11 +42,9 @@ void	display_player(t_game *game)
 		v = 0;
 		while (v < PLAYER_SIZE)
 		{
-			my_mlx_pixel_put(\
-				game->texture->map, \
-				game->player->position->h * SCALE_FACTOR + h, \
-				game->player->position->v * SCALE_FACTOR + v, \
-				ft_color(230, 200, 0));
+			my_mlx_pixel_put(game->texture->map, game->player->position->h
+				* SCALE_FACTOR + h, game->player->position->v * SCALE_FACTOR
+				+ v, ft_color(230, 200, 0));
 			v++;
 		}
 		h++;
@@ -77,5 +72,44 @@ void	display_map(t_game *game)
 			v++;
 		}
 		h++;
+	}
+}
+
+int	load_texture(t_game *game)
+{
+	int		i;
+	int		exit_code;
+	char	*path;
+
+	i = 0;
+	exit_code = 0;
+	while (i < 4)
+	{
+		path = game->texture->wall[i];
+		game->texture->wall[i] = ft_calloc(1, sizeof(t_text));
+		((t_text **)game->texture->wall)[i]->texture = mlx_xpm_file_to_image(
+				game->texture->mlx,
+				path, &((t_text **)game->texture->wall)[i]->height,
+				&((t_text **)game->texture->wall)[i]->width);
+		if (game->texture->wall[i] == NULL)
+		{
+			ft_dprintf(STDERR_FILENO, "Cannot load the texture %s\n", path);
+			exit_code = 42;
+		}
+		free(path);
+		i++;
+	}
+	return (exit_code);
+}
+
+void	display_game(t_game *game)
+{
+	int	column;
+
+	column = 0;
+	while (column < WIDTH)
+	{
+		send_ray(game, (double)(column * 2 - WIDTH) / (double)WIDTH, 0, column);
+		column++;
 	}
 }

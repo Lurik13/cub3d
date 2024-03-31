@@ -6,20 +6,17 @@
 /*   By: aboyreau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 06:32:29 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 13:13:09 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:12:27 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 
-void	get_ray_direction(t_ray *ray, t_player player, double start_position)
+void	get_ray_dist_per_step(t_ray *ray, t_player player,
+		double start_position)
 {
 	ray->ray_dir[H] = player.camera->h + player.fov.h * start_position;
 	ray->ray_dir[V] = player.camera->v + player.fov.v * start_position;
-}
-
-void	get_ray_dist_per_step(t_ray *ray)
-{
 	if (ray->ray_dir[H] != 0)
 		ray->ray_dist_per_step[H] = ft_abs(1 / ray->ray_dir[H]);
 	else
@@ -58,37 +55,40 @@ void	get_side_dists(t_ray *ray)
 	}
 }
 
+void	move_side(t_ray *ray, t_game *game, int *hit)
+{
+	if (ray->side_dist[H] < ray->side_dist[V])
+	{
+		ray->side_dist[H] += ray->ray_dist_per_step[H];
+		ray->coords[H] += ray->step[H];
+		ray->side = 0;
+		if (ray->step[H] > 0)
+			ray->texture_index = EAST;
+		else
+			ray->texture_index = WEST;
+	}
+	else
+	{
+		ray->side_dist[V] += ray->ray_dist_per_step[V];
+		ray->coords[V] += ray->step[V];
+		ray->side = 1;
+		if (ray->step[V] > 0)
+			ray->texture_index = SOUTH;
+		else
+			ray->texture_index = NORTH;
+	}
+	if (ray->coords[V] >= ft_tablen(game->map) || ray->coords[V] >= game->\
+		longest_line || game->map[ray->coords[V]][ray->coords[H]] == '1')
+		*hit = 1;
+}
+
 void	search_for_a_wall(t_ray *ray, t_game *game)
 {
 	int		hit;
 
 	hit = 0;
 	while (hit == 0)
-	{
-		if (ray->side_dist[H] < ray->side_dist[V])
-		{
-			ray->side_dist[H] += ray->ray_dist_per_step[H];
-			ray->coords[H] += ray->step[H];
-			ray->side = 0;
-			if (ray->step[H] > 0)
-				ray->texture_index = EAST;
-			else
-				ray->texture_index = WEST;
-		}
-		else
-		{
-			ray->side_dist[V] += ray->ray_dist_per_step[V];
-			ray->coords[V] += ray->step[V];
-			ray->side = 1;
-			if (ray->step[V] > 0)
-				ray->texture_index = SOUTH;
-			else
-				ray->texture_index = NORTH;
-		}
-		if (ray->coords[V] >= ft_tablen(game->map) || ray->coords[V] >= game->\
-			longest_line || game->map[ray->coords[V]][ray->coords[H]] == '1')
-			hit = 1;
-	}
+		move_side(ray, game, &hit);
 	if (ray->side == 0)
 		ray->distance = ray->side_dist[H] - ray->ray_dist_per_step[H];
 	else

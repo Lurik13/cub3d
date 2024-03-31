@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 09:54:48 by lribette          #+#    #+#             */
-/*   Updated: 2024/03/28 10:10:07 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:02:57 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	rotate(t_player *player, double orientation)
 	player->fov.v = old_fov.h * sin(orientation * ROTATION_SPEED)
 		+ player->fov.v * cos(orientation * ROTATION_SPEED);
 }
+
 void	choose_orientation(t_player *player, char c)
 {
 	player->camera->v = -1;

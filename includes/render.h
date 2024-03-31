@@ -6,16 +6,16 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:52:56 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 17:53:15 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:29:25 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDER_H
 # define RENDER_H
 
-# include "mlx.h"
-# include "libft.h"
 # include "cub3d.h"
+# include "libft.h"
+# include "mlx.h"
 # include <math.h>
 
 # define WIDTH 1920
@@ -42,7 +42,7 @@ typedef struct s_ray
 	int		line[2];
 	double	distance;
 	int		texture_index;
-}		t_ray;
+}			t_ray;
 
 typedef struct s_data
 {
@@ -51,29 +51,25 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}			t_data;
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
-/* ************************************************************************** */
-/*	DDA																		  */
-/* ************************************************************************** */
+/* ************************************************************************ */
+/*	DDA																		*/
+/* ************************************************************************ */
 
 /**
- * @brief Calculate the direction of the ray.
+ * @brief Calculate how much the priority of the horizontal and vertical
+ * Also calculate the direction of the ray.
  * @param `ray` The state of the current ray.
  * @param `player` The current player informations (we need the camera and the
  * fov !).
  * @param `start_position` The starting point of the ray.
- */
-void	get_ray_direction(t_ray *ray, t_player player, double start_position);
-
-/**
- * @brief Calculate how much the priority of the horizontal and vertical
  * direction should vary each iteration of the DDA.
- * @param `ray` The state of the current ray.
  */
-void	get_ray_dist_per_step(t_ray *ray);
+void		get_ray_dist_per_step(t_ray *ray, t_player player,
+				double start_position);
 
 /**
  * @brief Calculates the priority of horizontal movements and of vertical
@@ -81,7 +77,7 @@ void	get_ray_dist_per_step(t_ray *ray);
  * Also calculates if the movement should go up, down, left or right.
  * @param `ray` The current ray informations.
  */
-void	get_side_dists(t_ray *ray);
+void		get_side_dists(t_ray *ray);
 
 /**
  * @brief Propagate a ray until a wall is met.
@@ -89,7 +85,7 @@ void	get_side_dists(t_ray *ray);
  * @param `start_position` The column of the screen from which the ray
  * should start.
  */
-void	search_for_a_wall(t_ray *ray, t_game *game);
+void		search_for_a_wall(t_ray *ray, t_game *game);
 
 /**
  * @brief Calculates the height of the line to draw.
@@ -98,24 +94,24 @@ void	search_for_a_wall(t_ray *ray, t_game *game);
  * If col is 0, it shouldn't be displayed on the map.
  * @param `ray` The state of the ray.
  */
-void	get_line_height(t_game *game, int col, t_ray *ray);
+void		get_line_height(t_game *game, int col, t_ray *ray);
 
-/* ************************************************************************** */
-/*	DDA																		  */
-/* ************************************************************************** */
+/* ************************************************************************ */
+/*	DDA																		*/
+/* ************************************************************************ */
 
-void	display_game(t_game *game);
+void		display_game(t_game *game);
 
 /**
  * @brief render the map
  * @param `game` the struct containing the game state.
  */
-void	display_map(t_game *game);
+void		display_map(t_game *game);
 
 /**
  * @brief Renders the screen.
  */
-void	render(void *param);
+void		render(void *param);
 
 /**
  * @brief Send a ray.
@@ -126,7 +122,8 @@ void	render(void *param);
  * hidden).
  * @param `column` The column on the screen for which we cast a ray.
  */
-void	send_ray(t_game *game, double start_position, int color, int column);
+void		send_ray(t_game *game, double start_position, int color,
+				int column);
 
 /**
  * @brief Draw a column according to the ray structure.
@@ -134,9 +131,10 @@ void	send_ray(t_game *game, double start_position, int color, int column);
  * @param `game` The game state.
  * @param `col` The screen column.
  */
-void	render_column(t_ray *ray, t_game *game, int col);
-void	render_textured_column(t_ray *ray, t_game *game, int col);
+void		render_column(t_ray *ray, t_game *game, int col);
+void		render_textured_column(t_ray *ray, t_game *game, int col);
+int			load_texture(t_game *game);
 
-void	display_ray(t_ray ray, int color, t_game *game);
+void		display_ray(t_ray ray, int color, t_game *game);
 
 #endif

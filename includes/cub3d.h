@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:25:27 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 17:45:25 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/31 16:06:18 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include "libft.h"
 # include <math.h>
+# include "game.h"
 
 # define DOT_MSG "\x1b[38;2;30;100;0m.\e[0m"
 # define ZERO_MSG "\x1b[38;2;0;120;120m0\e[0m"
@@ -47,6 +48,13 @@ enum	e_directions
 	WEST
 };
 
+typedef struct s_text
+{
+	void		*texture;
+	int			width;
+	int			height;
+}				t_text;
+
 typedef struct s_textures
 {
 	void		*mlx;
@@ -66,14 +74,6 @@ typedef struct s_player
 	t_2dvector	fov;
 }				t_player;
 
-typedef struct s_game
-{
-	t_textures	*texture;
-	t_player	*player;
-	int			longest_line;
-	char		**map;
-}				t_game;
-
 /* ************************************************************************* */
 /* Libft (todo)																 */
 /* ************************************************************************* */
@@ -84,6 +84,7 @@ int		ft_tablen(char **tab);
 /* ************************************************************************* */
 int		parse_attrs(int fd, t_game **game);
 void	parse_map(int fd, t_game *game);
+void	free_table(char **table);
 
 /* ************************************************************************* */
 /* check_map.c																 */
@@ -96,13 +97,6 @@ int		is_closed(t_game *game, int y, int x);
 
 void	choose_orientation(t_player *player, char c);
 void	print_map(char **map);
-
-/* ************************************************************************* */
-/* Game																		 */
-/* ************************************************************************* */
-void	free_game(t_game *game, int free_textures);
-t_game	*init_game(void);
-void	free_table(char **tab);
 
 /* ************************************************************************* */
 /* Cub3d																	 */

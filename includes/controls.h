@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 09:25:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/27 15:15:50 by lribette         ###   ########.fr       */
+/*   Updated: 2024/03/31 15:27:54 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	move(int keycode, void *data);
 void	mouse_rotate(int x, int y, void *param);
 int		mlx_close(int keycode, void *mlx);
 void	init_keybindings(void *mlx, void *window, void **args);
+int		verif_wall(char **map, double move, double pos_v, double pos_h);
 
 #endif
