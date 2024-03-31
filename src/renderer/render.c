@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/28 13:17:14 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/03/31 14:20:19 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ void	render_textured_column(t_ray *ray, t_game *game, int col)
 	int		color;
 
 	v = 0;
-	if (ray->line[0] < 0)
-		v = ray->line[0];
+	text_coords[V] = 0;
 	textures_rendering_one(ray, text_coords, &wallh);
 	step = (double)TEXTURE_HEIGHT / (ray->line[1] - ray->line[0]);
+	if (ray->line[0] < 0)
+		text_coords[V] = ft_abs(ray->line[0]) * step;
 	while (v < ray->line[0])
 		my_mlx_pixel_put(game->texture->game, col, v++, game->texture->ceiling);
-	text_coords[V] = 0;
 	while (v < ray->line[1])
 	{
 		if (v >= 0)
