@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 07:46:17 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/31 16:00:03 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/04/07 08:38:57 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	load_texture(t_game *game)
 				game->texture->mlx,
 				path, &((t_text **)game->texture->wall)[i]->height,
 				&((t_text **)game->texture->wall)[i]->width);
-		if (game->texture->wall[i] == NULL)
+		if (((t_text **)game->texture->wall)[i]->texture == NULL)
 		{
 			ft_dprintf(STDERR_FILENO, "Cannot load the texture %s\n", path);
 			exit_code = 42;

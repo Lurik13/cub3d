@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:59:45 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/31 16:00:33 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/04/07 08:41:08 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ void	mlx_free_textures(t_textures *texture, int free_textures)
 		{
 			if (free_textures == 1)
 			{
-				mlx_destroy_image(texture->mlx,
-					((t_text *)texture->wall[i])->texture);
+				if (((t_text *)texture->wall[i])->texture)
+				{
+					mlx_destroy_image(texture->mlx,
+						((t_text *)texture->wall[i])->texture);
+				}
 				free(texture->wall[i]);
 			}
 			else
