@@ -6,7 +6,7 @@
 /*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/31 16:04:35 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/04/07 11:34:18 by aboyreau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int	get_pixel_color(t_text *data, double h, double v)
 {
 	t_data	img_data;
 
+	if (h < 0)
+		h = 0;
+	if (v < 0)
+		v = 0;
 	img_data.img = data->texture;
 	img_data.addr = mlx_get_data_addr(data->texture, &img_data.bits_per_pixel,
 			&img_data.line_length, &img_data.endian);
