@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/04/08 16:59:51 by lribette         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:56:11 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,21 @@ int	parse_color(char *line, t_game *game, int color)
  */
 int	parse_colors(char *line, t_game **game)
 {
+	int	i;
 	int	r;
 	int	g;
 	int	b;
 
 	if (ft_strstartswith(line, "C") || ft_strstartswith(line, "F"))
 	{
+		i = 0;
+		while (line[i])
+			if (!ft_strcontains("0123456789,CF\n ", line[i++]))
+				return (1);
 		if (ft_strcount(',', line) != 2)
+			return (-1);
+		if (!((ft_strcount('C', line) == 1 && ft_strcount('F', line) == 0)
+				|| (ft_strcount('F', line) == 1 && !ft_strcount('C', line))))
 			return (-1);
 		r = ft_atoi(line + 2);
 		g = ft_atoi(ft_strchr(line, ',') + 1);
@@ -77,11 +85,9 @@ int	parse_attr(char *line, t_game **game)
 	else if (ft_strstartswith(line, "EA"))
 		direction = EAST;
 	line += 2;
-	while (ft_strcontains(" \t", *line))
+	while (ft_strcontains(" ", *line))
 		line++;
-	if (direction == -1)
-		return (-1);
-	if ((*game)->texture->wall[direction] != NULL)
+	if (direction == -1 || (*game)->texture->wall[direction] != NULL)
 		return (-1);
 	(*game)->texture->wall[direction] = ft_strdup(line);
 	if ((*game)->texture->wall[direction] == NULL)
@@ -116,7 +122,7 @@ int	parse_attrs(int fd, t_game **game)
 		if (line == NULL)
 			break ;
 		temp = line;
-		line = ft_strtrim(line, " \t\r\n");
+		line = ft_strtrim(line, " \n");
 		free(temp);
 		if (line[0] != '\0')
 		{
