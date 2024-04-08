@@ -6,7 +6,7 @@
 /*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:24:59 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/03/31 16:25:08 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:59:51 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	parse_attr(char *line, t_game **game)
 	while (ft_strcontains(" \t", *line))
 		line++;
 	if (direction == -1)
+		return (-1);
+	if ((*game)->texture->wall[direction] != NULL)
 		return (-1);
 	(*game)->texture->wall[direction] = ft_strdup(line);
 	if ((*game)->texture->wall[direction] == NULL)
