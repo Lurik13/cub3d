@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboyreau <aboyreau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lribette <lribette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 06:37:11 by aboyreau          #+#    #+#             */
-/*   Updated: 2024/04/07 11:34:18 by aboyreau         ###   ########.fr       */
+/*   Updated: 2024/07/14 22:56:53 by lribette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	textures_rendering_one(t_ray *ray, double text_coords[2], double *wallh,
 		text_coords[H] = tex_width - text_coords[H] - 1;
 	if (ray->side == 1 && ray->ray_dir[V] > 0)
 		text_coords[H] = tex_width - text_coords[H] - 1;
-	text_coords[V] = 0;
 }
 
 void	render_textured_column(t_ray *ray, t_game *game, int col)
